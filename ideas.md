@@ -68,3 +68,9 @@ Use a restrained `Aboyejo Global` wordmark set in Cormorant Garamond, paired wit
 
 ### Signature Brand Color
 **Aboyejo Forest — `#0A3B2E`**
+
+## Completion QA notes
+
+The completed public routes preserve the Quiet Harvest visual system across product browsing, ordering, contact, and administrator access. Desktop and mobile checks confirmed readable stacking, clear action hierarchy, protected administrator entry, and an intentional catalogue empty state for the new production backend.
+
+The dedicated Supabase project is clean and unseeded. Public catalogue and site-setting reads now pass Row Level Security as anonymous requests, while service-only routines are inaccessible to anonymous and authenticated database roles and are reached only through hardened Edge Function boundaries. The final Supabase security advisor reported no outstanding findings.

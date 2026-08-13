@@ -1,16 +1,28 @@
 import { Toaster } from "@/components/ui/sonner";
+// Route map for the public Aboyejo storefront and Supabase-backed administration workspace.
 import { TooltipProvider } from "@/components/ui/tooltip";
+import Admin from "@/pages/Admin";
+import { ContactPage, FaqPage, GalleryPage, SouvenirsPage } from "@/pages/ContentPages";
 import NotFound from "@/pages/NotFound";
+import Order from "@/pages/Order";
+import Products from "@/pages/Products";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 
-
 function Router() {
+  // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/products"} component={Products} />
+      <Route path={"/order"} component={Order} />
+      <Route path={"/souvenirs"} component={SouvenirsPage} />
+      <Route path={"/gallery"} component={GalleryPage} />
+      <Route path={"/faq"} component={FaqPage} />
+      <Route path={"/contact"} component={ContactPage} />
+      <Route path={"/admin"} component={Admin} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

@@ -215,7 +215,7 @@ export default function Home() {
         </section>
 
         <section className="contact-section forest-section" id="contact">
-          <div className="contact-text"><ChapterLabel number="08">Order enquiry</ChapterLabel><h2>Ready when<br /><i>you are.</i></h2><p>Tell us what you are planning, and we will help you find the right format for the moment. The ordering channel is WhatsApp; the live number remains editable for the business.</p><button className="gold-button" onClick={() => window.alert("Connect the Aboyejo WhatsApp number to activate this enquiry button.")}><MessageCircle size={17} /> Open WhatsApp</button></div>
+          <div className="contact-text"><ChapterLabel number="08">Order enquiry</ChapterLabel><h2>Ready when<br /><i>you are.</i></h2><p>Tell us what you are planning, and we will help you find the right format for the moment. The live enquiry, newsletter, and WhatsApp settings now sit in the dedicated contact flow.</p><button className="gold-button" onClick={() => window.location.assign("/contact")}><MessageCircle size={17} /> Start an enquiry</button></div>
           <div className="contact-panel"><div className="contact-panel-top"><span>ABOYEJO / ENQUIRY</span><span>01</span></div><div className="contact-fields"><div><label>Your name</label><span>Type your name</span></div><div><label>What are you planning?</label><span>Wedding, gifting, pantry...</span></div><div><label>What would you like to ask?</label><span>Share a little about your order</span></div></div><div className="contact-panel-foot"><span>WhatsApp ordering</span><span className="editable-pill"><Check size={13} /> Number editable</span></div></div>
         </section>
       </main>

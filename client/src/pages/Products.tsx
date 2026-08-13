@@ -1,0 +1,24 @@
+// Live product catalogue backed by the canonical products.image_url field.
+import { ArrowUpRight, PackageOpen } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link } from "wouter";
+import { loadProducts, type Product } from "@/lib/commerce";
+import { PageHero, PublicShell } from "@/components/PublicShell";
+
+export default function Products() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [error, setError] = useState("");
+
+  useEffect(() => { loadProducts().then(setProducts).catch(() => setError("The collection could not be loaded just now.")); }, []);
+
+  return <PublicShell><PageHero eyebrow="The collection" title={<>The grain,<br /><i>your way.</i></>}>Choose the format that suits your shelf, your people, or your next gathering. Availability, price, and stock status are kept current by the Aboyejo team.</PageHero>
+    <section className="catalogue-section paper-section">
+      {error ? <p className="notice error">{error}</p> : null}
+      {products.length === 0 && !error ? <div className="empty-state"><PackageOpen size={34} /><h2>The collection is being prepared.</h2><p>Product availability will appear here as soon as the Aboyejo team publishes it.</p><Link className="forest-button" href="/contact">Ask about availability <ArrowUpRight size={16} /></Link></div> : null}
+      <div className="catalogue-grid">{products.map((product) => <article className="catalogue-card" key={product.id}>
+        <div className="catalogue-image">{product.image_url ? <img src={product.image_url} alt={product.name} /> : <span>{product.size}</span>}</div>
+        <div className="catalogue-card-copy"><p className="eyebrow">{product.stock_status.replaceAll("_", " ")}</p><h2>{product.name}</h2><p>{product.description}</p><div className="catalogue-meta"><span>{product.size}</span><strong>{product.sale_price ?? product.price ? `₦${Number(product.sale_price ?? product.price).toLocaleString()}` : "Price on request"}</strong></div><div className="catalogue-actions"><Link href={`/products/${product.slug}`}>View details <ArrowUpRight size={15} /></Link><Link href={`/order?product=${product.id}`}>Order now</Link></div></div>
+      </article>)}</div>
+    </section>
+  </PublicShell>;
+}
