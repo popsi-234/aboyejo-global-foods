@@ -15,4 +15,13 @@ describe("admin workspace contract", () => {
     expect(adminWorkspace).toContain('deleteRecord("testimonials", item.id, "testimonial")');
     expect(adminWorkspace).toContain("Customer-approved testimonial");
   });
+
+  it("supports direct file selection and drag-and-drop image staging for the three image workflows", () => {
+    expect(adminWorkspace).toContain('input[name="image_file"][type="file"]');
+    expect(adminWorkspace).toContain('document.addEventListener("drop", handleDrop)');
+    expect(adminWorkspace).toContain('const accepted = ["image/jpeg", "image/png", "image/webp"]');
+    expect(adminWorkspace).toContain('uploadBusinessImage(file, "product-images", "products")');
+    expect(adminWorkspace).toContain('uploadBusinessImage(file, "gallery-images", "gallery")');
+    expect(adminWorkspace).toContain('uploadBusinessImage(file, "souvenir-images", "souvenirs")');
+  });
 });

@@ -1,0 +1,35 @@
+.admin-card label:has(input[type="file"]) {
+  border: 1px dashed color-mix(in srgb, var(--forest) 45%, transparent);
+  border-radius: 0.75rem;
+  padding: 0.85rem;
+  background: color-mix(in srgb, var(--cream) 86%, var(--gold) 14%);
+}
+
+.admin-card label:has(input[type="file"])::after {
+  content: "You can also drag a JPEG, PNG, or WebP image onto this field.";
+  display: block;
+  margin-top: 0.4rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.35;
+}
+
+.admin-delete-confirm {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 0 1rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid color-mix(in srgb, #a6402b 35%, transparent);
+  border-radius: 0.7rem;
+  background: color-mix(in srgb, #fff8ed 92%, #a6402b 8%);
+  color: var(--ink);
+  font-size: 0.84rem;
+}
+
+.admin-delete-confirm > div {
+  display: flex;
+  gap: 0.65rem;
+  flex-shrink: 0;
+}
