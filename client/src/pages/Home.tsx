@@ -16,7 +16,8 @@ import {
   Sparkles,
   X,
 } from "lucide-react";
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import { loadPublicSetting } from "@/lib/commerce";
 
 const storage = {
   hero: "/manus-storage/aboyejo-hero_5ad3dc77.jpg",
@@ -84,11 +85,24 @@ function ChapterLabel({ number, children }: { number: string; children: ReactNod
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState(0);
+  const [whatsAppNumber, setWhatsAppNumber] = useState("");
+
+  useEffect(() => {
+    loadPublicSetting("whatsapp_number").then(setWhatsAppNumber).catch(() => undefined);
+  }, []);
 
   const closeMenu = () => setMenuOpen(false);
   const goTo = (id: string) => {
     closeMenu();
     window.setTimeout(() => scrollToSection(id), 40);
+  };
+  const openWhatsApp = () => {
+    const digits = whatsAppNumber.replace(/\D/g, "");
+    if (!digits) {
+      goTo("contact");
+      return;
+    }
+    window.open(`https://wa.me/${digits}`, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -120,7 +134,7 @@ export default function Home() {
             <h1>Good food keeps<br /><i>good company.</i></h1>
             <p className="hero-lede">Premium Garri Ijebu and custom souvenir packaging from a Nigerian family-owned business, founded in 2020.</p>
             <div className="hero-actions">
-              <Button className="forest-button" onClick={() => goTo("contact")}><MessageCircle size={16} /> Order on WhatsApp</Button>
+              <Button className="forest-button" onClick={openWhatsApp}><MessageCircle size={16} /> Order on WhatsApp</Button>
               <button className="text-arrow" onClick={() => goTo("products")}>Explore the collection <MoveRight size={17} /></button>
             </div>
             <div className="hero-proof">

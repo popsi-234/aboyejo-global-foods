@@ -23,5 +23,7 @@
 - [x] Verify the existing aboyejoglobalfoods3 backend, RLS, storage, authentication, administrative workflows, and ordering configuration for production readiness without changing the UI or schema.
 - [x] Run final pnpm check, pnpm test, and pnpm build validation and resolve any verified issue.
 - [x] Inspect the configured GitHub and Netlify release targets, prepare the existing project for handoff, and document the required user-led publication and live verification steps.
-- [ ] Provide the approved business WhatsApp number and save it in Admin → Content & settings before enabling the public WhatsApp handoff.
+- [x] Save the approved business WhatsApp number in the public administrator-managed site_settings record before enabling the public WhatsApp handoff.
 - [ ] In the existing Netlify site, configure VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY from the current project secrets, then publish the verified GitHub main branch.
+- [x] Save the owner-approved WhatsApp number 2348053880130 in site_settings and verify the public ordering handoff resolves to the configured number.
+- [x] Connect the homepage WhatsApp order action to the public site_settings value rather than its current contact-section-only behavior, then cover it with a regression test.
