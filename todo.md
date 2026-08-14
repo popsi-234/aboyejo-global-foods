@@ -32,3 +32,5 @@
 - [x] Replace the published homepage’s broken `/manus-storage/...` asset references with deployment-safe hosted asset URLs, then redeploy and repeat live desktop and mobile checks.
 - [x] Resolve the Netlify GitHub-import authentication error and retry the authorized repository import without creating an unintended project.
 - [x] Resolve the live Supabase administrator-role mismatch for the authorized account before completing Netlify production admin and upload validation.
+- [x] Add the owner-provided Garri Ijebu 1 kg, 2 kg, and 3 kg package images as live product variants through the protected catalogue workflow, without inventing commercial details.
+- [x] Reconfirm the readable 1 kg, 2 kg, and 3 kg labels on the three owner-provided package images and record the corresponding live product-image mapping.
