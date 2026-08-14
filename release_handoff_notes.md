@@ -26,3 +26,11 @@ The temporary souvenir record was likewise removed through the protected confirm
 The public product-order route and its deployed `order-service` workflow are present. The optional `site_settings.whatsapp_number` contact handoff is intentionally not configured in the production database; no number can be safely invented. The administrator can set this value in Content & settings when the approved business number is available.
 
 Mobile release-candidate screenshots at 375×812 render successfully for the home, products, gallery, souvenirs, and order routes. The protected `/admin` route retains its focused Supabase email/password sign-in interface at the same viewport.
+
+## User-led Netlify publication and live verification
+
+Use the existing Netlify site `aboyejoglobalfoods` (`59d029a4-ed3e-408d-8799-88b1a14d777a`); do not create another site. Connect its production branch to `popsi-234/aboyejo-global-foods`, branch `main`, where the verified source is now committed. Keep the repository build configuration from `netlify.toml`: `npm run build` and `dist/public`, including its SPA redirect.
+
+In **Site configuration → Environment variables**, set `VITE_SUPABASE_URL` to `https://ljgwxgtizkguhbutrnxi.supabase.co` and set `VITE_SUPABASE_PUBLISHABLE_KEY` from this project’s existing secret value. Apply both to production and deploy-preview contexts. Do not add a Supabase service-role key anywhere in Netlify or the frontend. Then initiate the deployment through the user-facing Publish control.
+
+After Netlify confirms the deployment is live, open the production URL on desktop and at a 375×812 mobile viewport. Check `/`, `/products`, `/gallery`, `/souvenirs`, `/order`, `/faq`, and `/contact`; confirm the `/order` form loads its catalogue and provides the order-status tracker. Then sign in at `/admin` with the authorized Supabase account and verify that an uploaded temporary WebP product appears with its `image_url`, then remove that temporary item through the in-page confirmation and verify its associated Storage object has been removed. Finally, create and remove temporary gallery and souvenir entries through the same workflow. No customer test order or unapproved WhatsApp number should be used.

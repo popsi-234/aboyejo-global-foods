@@ -20,6 +20,8 @@
 - [x] Replace the blocking live administrator delete confirmation with an accessible in-page confirmation flow and revalidate product deletion.
 - [x] Ensure administrator deletion removes the associated product image from Supabase Storage and revalidate the complete cleanup flow.
 - [x] Create and deliver a fresh downloadable ZIP archive of the final verified project state.
-- [ ] Verify the existing aboyejoglobalfoods3 backend, RLS, storage, authentication, administrative workflows, and ordering configuration for production readiness without changing the UI or schema.
-- [ ] Run final pnpm check, pnpm test, and pnpm build validation and resolve any verified issue.
-- [ ] Inspect the configured GitHub and Netlify release targets, prepare the existing project for handoff, and document the required user-led publication and live verification steps.
+- [x] Verify the existing aboyejoglobalfoods3 backend, RLS, storage, authentication, administrative workflows, and ordering configuration for production readiness without changing the UI or schema.
+- [x] Run final pnpm check, pnpm test, and pnpm build validation and resolve any verified issue.
+- [x] Inspect the configured GitHub and Netlify release targets, prepare the existing project for handoff, and document the required user-led publication and live verification steps.
+- [ ] Provide the approved business WhatsApp number and save it in Admin → Content & settings before enabling the public WhatsApp handoff.
+- [ ] In the existing Netlify site, configure VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY from the current project secrets, then publish the verified GitHub main branch.
