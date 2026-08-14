@@ -11,4 +11,10 @@ The live desktop routes were checked after the GitHub synchronization. A separat
 
 ## Header-asset correction
 
-A mobile production-width screenshot identified that the shared inner-page header still used the legacy `/manus-storage/` logo path. The shared `brandMark` constant now uses the same persistent CDN logo URL as the homepage. The corrected 375 × 812 local production-preview rendering shows the logo normally; the fix is ready to synchronize and recheck on the live site.
+A mobile production-width screenshot identified that the shared inner-page header still used the legacy `/manus-storage/` logo path. The shared `brandMark` constant now uses the same persistent CDN logo URL as the homepage. The corrected 375 × 812 local production-preview rendering shows the logo normally. After the connected GitHub update completed, the live product-detail response was confirmed to reference the persistent CDN logo URL rather than `/manus-storage/`. A 375 × 812 live mobile capture then showed the working mark, product title, supplied package image, and visible order action without overflow.
+
+## Final live route review
+
+The current Netlify production site was reviewed after the automatic GitHub deployment completed. The catalogue-supported product detail now renders on the live URL with a correct title, the persistent header mark, the 1 kg package image, verified package-label facts, and an **Order this pack** action. The selected-pack order URL rendered at 375 × 812 with `Garri Ijebu 1kg — 1kg` shown in the form before customer fields, confirming that the selected product context survives from the product detail into the public order experience.
+
+The live `/products` catalogue was then checked at desktop and 375 × 812 mobile widths. It displayed all three active products—**Garri Ijebu 1kg**, **Garri Ijebu 2kg**, and **Garri Ijebu 3kg**—with their respective Supabase Storage images, package-size labels, price-on-request state, detail links, and order links. The mobile hero and first catalogue card fit the viewport without horizontal overflow, and the persistent header logo remained visible.

@@ -39,8 +39,9 @@
 - [x] Improve product-route accessibility and discoverability with accurate page metadata and resilient loading or empty-state behavior, without redesigning the Quiet Harvest Editorial interface.
 - [x] Run focused tests and live desktop/mobile checks for the owner-authorized catalogue and ordering enhancements.
 - [x] Record explicit visual evidence for every package-label claim displayed on public product-detail pages, or remove any claim that cannot be verified directly from the supplied package imagery.
-- [ ] Publish the approved enhancement release through the configured production delivery workflow and verify the public Netlify catalogue, product-detail, and order routes at desktop and mobile sizes.
-- [ ] Confirm the owner-initiated production publication has updated the current Netlify URL with the latest checkpoint, then record the live route verification results.
+- [x] Publish the approved enhancement release through the configured production delivery workflow and verify the public Netlify catalogue, product-detail, and order routes at desktop and mobile sizes.
+- [x] Confirm the owner-initiated production publication has updated the current Netlify URL with the latest checkpoint, then record the live route verification results.
 - [x] Synchronize checkpoint 58e18e5b’s approved catalogue and ordering enhancements to `popsi-234/aboyejo-global-foods` on the connected `main` branch for the current Netlify project.
-- [ ] Replace the verified broken mobile production header-logo asset reference with the established deployment-safe hosted logo URL, then repeat live route checks.
-- [ ] Synchronize the verified shared header-logo correction to `popsi-234/aboyejo-global-foods` on `main` and recheck the live mobile product-detail route.
+- [x] Replace the verified broken mobile production header-logo asset reference with the established deployment-safe hosted logo URL, then repeat live route checks.
+- [x] Synchronize the verified shared header-logo correction to `popsi-234/aboyejo-global-foods` on `main` and recheck the live mobile product-detail route.
+- [x] Verify the live Netlify `/products` catalogue route after the latest deployment at desktop and mobile sizes, and record the results in the release verification notes.
