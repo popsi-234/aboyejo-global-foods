@@ -38,3 +38,47 @@ After Netlify confirms the deployment is live, open the production URL on deskto
 ## Approved WhatsApp configuration
 
 The owner-approved `whatsapp_number` was saved as the public `site_settings` value `2348053880130`. The homepage “Order on WhatsApp” action now reads this same administrator-managed setting instead of only scrolling to the contact section. A non-navigating browser verification captured the target `https://wa.me/2348053880130`; the existing contact route uses the same public setting. The integration is protected by the `server/whatsapp-handoff.test.ts` regression contract, and the full test suite and production build pass.
+
+## New-Netlify-project authorization status
+
+The owner subsequently authorized creation of a new Netlify project named `aboyejoglobalfoods_1`, superseding use of the existing site. The configured Netlify connector currently returns `403 permission_denied` before it can disclose the project-creation or environment-variable operation contract. The sandbox browser was also opened to `https://app.netlify.com/`, but it did not render an authenticated workspace or interactive controls. No Netlify project, deployment, or external configuration has been created or modified while access is unavailable.
+
+The user subsequently completed browser sign-in. The Netlify dashboard now identifies the `popsi` team and `ipinoluwafaith@gmail.com` session, confirming browser authentication. The authorized new-project route at `/start` is open but still displaying its loading state, so no repository selection, project creation, deployment, or environment-variable mutation has occurred.
+
+The `/start` route subsequently loaded its “Import a Git repository” controls, including GitHub. The GitHub import choice was initiated to reach the repository picker; no repository has been selected and no Netlify project has been created yet.
+
+The enabled GitHub import control did not open a repository picker after standard browser click, direct DOM click, and coordinate click attempts; browser-console inspection showed no emitted error. The issue is isolated to Netlify’s import interaction in this automated session. No GitHub repository was selected, and no new Netlify project, deployment, or environment variable was created.
+
+After the user reported an authentication error, the `/start` route was reloaded in the same signed-in `popsi` session and the GitHub import control was retried. It again remained on the same route and did not display a picker or actionable authentication prompt. The current retry therefore has not changed any Netlify project, source connection, deployment, or environment variable.
+
+The authenticated GitHub picker subsequently opened and exposed `popsi-234/aboyejo-global-foods`; that repository was selected with branch `main`. Netlify correctly prefilled the repository build settings from `netlify.toml`: `npm run build` and `dist/public`. The requested identifier `aboyejoglobalfoods_1` was sanitized by Netlify’s project-name field to the available hostname-safe identifier `aboyejoglobalfoods1` (`https://aboyejoglobalfoods1.netlify.app`); no project has yet been deployed or created.
+
+The Netlify key/value environment-variable form is open for the selected repository. No value has yet been persisted and deployment has not started.
+
+The required `VITE_SUPABASE_URL` value is staged in the first Netlify variable row, and a second blank row has been created for `VITE_SUPABASE_PUBLISHABLE_KEY`. The settings remain staged only until the project’s first deployment is confirmed.
+
+Following the owner’s explicit confirmation, Netlify created the public project `aboyejoglobalfoods1` from `popsi-234/aboyejo-global-foods` branch `main`. The two Vite Supabase public variables were included in the initial deployment configuration. The canonical project URL is `https://aboyejoglobalfoods1.netlify.app`; its first production deploy (`main@HEAD`) is currently building and has not yet been validated.
+
+Two Netlify dashboard status checks completed at 19:35–19:36 UTC. The production deployment remained in the `building` state with no failure message exposed. The project is public, connected to the intended GitHub repository, and no post-deployment browser validation has begun.
+
+Netlify subsequently marked the first production deployment as `published`. The public URL is `https://aboyejoglobalfoods1.netlify.app`, and the published production revision is GitHub `main@6549a60`. The project retains build command `npm run build`, publish directory `dist/public`, and the two staged Vite Supabase public values.
+
+Live production checks confirmed that the published homepage, catalogue, order, gallery, and souvenirs routes are publicly retrievable from `https://aboyejoglobalfoods1.netlify.app`. The public `/admin` route rendered the expected protected Supabase email/password sign-in interface in the deployed Netlify build. Authorized administrator credentials have been entered for the next authentication step; no credentials are recorded in these notes.
+
+Following the owner’s explicit confirmation, the designated Supabase user completed the available first-admin claim on the published `/admin` route. The live deployment now renders the protected administrator workspace with Overview, Products, Media & souvenirs, Orders & messages, Content & settings, and Admin users. This resolves the production administrator-role mismatch without changing the Supabase schema or the public application design.
+
+The published Products workspace exposes the direct file-selection product-image control and the expected canonical product fields. A small, clearly temporary WebP image has been staged for a production upload-and-cleanup test; the form has not yet created a persistent product record.
+
+The temporary product form was completed with a clearly labeled validation record and submitted through the published administrator workflow. The post-submit state will be checked before attempting deletion, so no result is inferred from the button press alone.
+
+The published workflow reported “Product saved” and displayed the temporary item with the canonical `image_url` under the production `product-images` bucket. Its Storage URL was `products/1786739403696-aboyejoglobalfoods1-2026-08-14-20-29-33-6032.webp`. The item’s Delete control opened the expected accessible in-page confirmation; the confirmed cleanup check remains in progress.
+
+The production in-page confirmation completed successfully: the workspace reported “product deleted” and returned the catalogue to its empty state. The final Storage metadata check for the exact temporary object remains the only outstanding part of this upload-cleanup verification.
+
+An authoritative read-only query of `storage.objects` for the exact temporary product image returned no rows. The confirmed production delete therefore removed both the product record and its associated `product-images` object.
+
+## Published experience verification
+
+The Netlify production homepage rendered successfully at `https://aboyejoglobalfoods1.netlify.app/` in a desktop browser, with working public navigation, the configured WhatsApp order action, and the expected Quiet Harvest editorial layout. Public retrieval checks passed for the primary storefront routes. The released source also passed a fresh responsive 375×812 verification for both the homepage and protected `/admin` entry route: the mobile navigation, primary order call-to-action, and credential fields remain visible and usable without horizontal overflow. Live Supabase sign-in, first-admin claiming, direct product WebP upload, canonical `image_url` persistence, accessible deletion, and authoritative Storage cleanup have all been verified in the published Netlify deployment.
+
+Actual 375×812 screenshots of the published Netlify URL show that the layout, navigation, WhatsApp call-to-action, and `/admin` credential form remain responsive. However, the homepage brand-mark image is broken in the published build because its prior `/manus-storage/...` reference is not served by Netlify. This is a production asset-path defect; it must be corrected and redeployed before the mobile verification is closed.

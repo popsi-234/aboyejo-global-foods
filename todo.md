@@ -24,6 +24,11 @@
 - [x] Run final pnpm check, pnpm test, and pnpm build validation and resolve any verified issue.
 - [x] Inspect the configured GitHub and Netlify release targets, prepare the existing project for handoff, and document the required user-led publication and live verification steps.
 - [x] Save the approved business WhatsApp number in the public administrator-managed site_settings record before enabling the public WhatsApp handoff.
-- [ ] In the existing Netlify site, configure VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY from the current project secrets, then publish the verified GitHub main branch.
+- [x] Superseded at the owner’s direction: the prior existing-Netlify-site configuration request has been replaced by a new authorized Netlify project deployment.
 - [x] Save the owner-approved WhatsApp number 2348053880130 in site_settings and verify the public ordering handoff resolves to the configured number.
 - [x] Connect the homepage WhatsApp order action to the public site_settings value rather than its current contact-section-only behavior, then cover it with a regression test.
+- [ ] Create the owner-authorized Netlify project (normalized by Netlify to `aboyejoglobalfoods1`), connect `popsi-234/aboyejo-global-foods` branch `main`, configure the Vite Supabase public variables, publish it, and complete live desktop, mobile, admin, and image-upload validation.
+- [ ] Capture and inspect the actual published Netlify homepage and admin route at a 375×812 mobile viewport before closing the production-validation checklist.
+- [ ] Replace the published homepage’s broken `/manus-storage/...` asset references with deployment-safe hosted asset URLs, then redeploy and repeat live desktop and mobile checks.
+- [x] Resolve the Netlify GitHub-import authentication error and retry the authorized repository import without creating an unintended project.
+- [x] Resolve the live Supabase administrator-role mismatch for the authorized account before completing Netlify production admin and upload validation.

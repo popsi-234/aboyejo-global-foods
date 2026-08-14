@@ -20,16 +20,16 @@ import { useEffect, useState, type ReactNode } from "react";
 import { loadPublicSetting } from "@/lib/commerce";
 
 const storage = {
-  hero: "/manus-storage/aboyejo-hero_5ad3dc77.jpg",
-  grain: "/manus-storage/aboyejo-grain-detail_7b6e95ae.jpg",
-  souvenirScene: "/manus-storage/aboyejo-souvenir-scene_339dd54c.jpg",
-  texture: "/manus-storage/aboyejo-material-texture_842df54a.jpg",
-  mark: "/manus-storage/aboyejo-mark_e7e0605e.png",
-  suppliedSouvenir: "/manus-storage/souvenir-hero_c4f6c008.jpg",
-  suppliedWedding: "/manus-storage/souvenir-wedding_5663835d.jpg",
-  suppliedCelebration: "/manus-storage/souvenir-celebration_f484916e.jpg",
-  suppliedCorporate: "/manus-storage/souvenir-corporate_587df3a4.jpg",
-  suppliedDetail: "/manus-storage/souvenir-detail_0781c899.jpg",
+  hero: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/XkKcjxdJwmQluifX.jpg",
+  grain: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/lCSFsofiQyeWvPkq.jpg",
+  souvenirScene: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/UDnpQSJGKKtNpDil.jpg",
+  texture: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/jOdMWSDUKPKYDWAF.jpg",
+  mark: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/XHgAIZOHpmbJXiuW.png",
+  suppliedSouvenir: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/DzZxKRZqLqWgUvaS.jpg",
+  suppliedWedding: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/VwRFcONlnduPfUOp.jpg",
+  suppliedCelebration: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/ttBBYvyulDiVahqd.jpg",
+  suppliedCorporate: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/hxtQVLUDKdTAsPHE.jpg",
+  suppliedDetail: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/AvfJTbRvBNEidNDd.jpg",
 };
 
 const productSizes = [
