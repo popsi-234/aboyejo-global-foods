@@ -7,7 +7,7 @@ export type GalleryItem = Tables<"gallery">;
 export type SouvenirPackage = Tables<"souvenir_packages">;
 export type Faq = Tables<"faqs">;
 
-export const brandMark = "/manus-storage/aboyejo-mark_e7e0605e.png";
+export const brandMark = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/XHgAIZOHpmbJXiuW.png";
 
 export const loadProducts = async () => {
   const { data, error } = await supabase.from("products").select("*").order("sort_order", { ascending: true });
