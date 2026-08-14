@@ -19,3 +19,7 @@
 - [x] Exercise end-to-end live administrator product CRUD, direct image upload including drag-and-drop, image_url persistence, and operational management workflows.
 - [x] Replace the blocking live administrator delete confirmation with an accessible in-page confirmation flow and revalidate product deletion.
 - [x] Ensure administrator deletion removes the associated product image from Supabase Storage and revalidate the complete cleanup flow.
+- [x] Create and deliver a fresh downloadable ZIP archive of the final verified project state.
+- [ ] Verify the existing aboyejoglobalfoods3 backend, RLS, storage, authentication, administrative workflows, and ordering configuration for production readiness without changing the UI or schema.
+- [ ] Run final pnpm check, pnpm test, and pnpm build validation and resolve any verified issue.
+- [ ] Inspect the configured GitHub and Netlify release targets, prepare the existing project for handoff, and document the required user-led publication and live verification steps.
