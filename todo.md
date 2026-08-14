@@ -34,3 +34,9 @@
 - [x] Resolve the live Supabase administrator-role mismatch for the authorized account before completing Netlify production admin and upload validation.
 - [x] Add the owner-provided Garri Ijebu 1 kg, 2 kg, and 3 kg package images as live product variants through the protected catalogue workflow, without inventing commercial details.
 - [x] Reconfirm the readable 1 kg, 2 kg, and 3 kg labels on the three owner-provided package images and record the corresponding live product-image mapping.
+- [x] Add a fact-verified “Product at a glance” presentation to public product detail pages, using only existing names, sizes, stock status, and supplied-package label information.
+- [x] Make the public ordering journey retain the selected product context from catalogue and product-detail calls to action without changing the current order backend.
+- [x] Improve product-route accessibility and discoverability with accurate page metadata and resilient loading or empty-state behavior, without redesigning the Quiet Harvest Editorial interface.
+- [x] Run focused tests and live desktop/mobile checks for the owner-authorized catalogue and ordering enhancements.
+- [x] Record explicit visual evidence for every package-label claim displayed on public product-detail pages, or remove any claim that cannot be verified directly from the supplied package imagery.
+- [ ] Publish the approved enhancement release through the configured production delivery workflow and verify the public Netlify catalogue, product-detail, and order routes at desktop and mobile sizes.
