@@ -69,8 +69,11 @@
 - [x] Add targeted regression tests, run type/test/build checks, and verify the updated public storefront at desktop and 360 px, 390 px, and 414 px mobile widths.
 - [x] Synchronize the verified storefront enhancement release to GitHub main and confirm the compatible live Netlify deployment.
 - [x] Investigate the user's report that the storefront enhancement is not visible on the production site; compare the deployed assets and release commit with the latest verified source.
-- [ ] Confirm the live Netlify deployment metadata or a unique live release signature for aboyejoglobalfoods1 and record its comparison with the latest GitHub main commit.
-- [ ] Correct any confirmed production deployment, cache, or release-branch mismatch and re-verify the live site at the public URL.
+- [x] Confirm the live Netlify deployment metadata or a unique live release signature for aboyejoglobalfoods1 and record its comparison with the latest GitHub main commit.
+- [x] Reconfirm that the live release-signature comparison for GitHub main `039762f` is written in the verification notes and retain the public production URL with it.
+- [x] Add the explicit public Netlify URL to the recorded GitHub main `039762f` release-signature comparison.
+- [x] Correct any confirmed production deployment, cache, or release-branch mismatch and re-verify the live site at the public URL.
+- [x] Document that the reported issue was incomplete visual implementation rather than a deployment mismatch, including the corrective homepage rebuild and successful live re-verification.
 - [x] Replace the remaining legacy homepage hero copy and composition with the approved product-dominant “Pure Taste. Made the Nigerian Way.” editorial direction, using the real 3 kg package image.
 - [x] Make the supplied brief visibly distinguishable across the homepage and public commerce journey, including clearly premium product actions and content hierarchy rather than only incremental cart/navigation changes.
 - [x] Rebuild the homepage desktop composition against the supplied reference: compact green header, full-width product hero, cream trust row, three-card pack shelf, and dark story band.
@@ -78,4 +81,4 @@
 - [x] Display each live stock state visibly within the reference-matched pack cards and extend regression coverage for price, stock, cart, and ordering controls.
 - [x] Rework the souvenir, gallery, support, footer, and mobile homepage progression to echo the supplied reference without inventing unavailable business details, reviews, prices, or images.
 - [x] Add reference-matched visual regression coverage and verify desktop plus 390 px mobile screenshots before publication.
-- [ ] Publish the reference-matched homepage to GitHub main and confirm the exact new visual signature is visible at the live Netlify URL.
+- [x] Publish the reference-matched homepage to GitHub main and confirm the exact new visual signature is visible at the live Netlify URL.
