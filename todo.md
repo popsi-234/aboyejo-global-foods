@@ -67,4 +67,4 @@
 - [x] Upgrade the live product catalogue and detail journey with data-backed prices, stock states, quantity controls, and responsive premium product presentation without fabricated commerce data.
 - [x] Align public story, souvenir, FAQ, contact, metadata, and mobile navigation details with the approved premium food-brand design direction while retaining existing data and actions.
 - [x] Add targeted regression tests, run type/test/build checks, and verify the updated public storefront at desktop and 360 px, 390 px, and 414 px mobile widths.
-- [ ] Synchronize the verified storefront enhancement release to GitHub main and confirm the compatible live Netlify deployment.
+- [x] Synchronize the verified storefront enhancement release to GitHub main and confirm the compatible live Netlify deployment.

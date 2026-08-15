@@ -25,6 +25,10 @@ The current local release was reviewed at desktop **1280 × 720** and mobile **3
 
 At **390 × 844** and **414 × 896**, the same route set was checked after the cart-aware order query correction. The homepage continues to show the official package and both shopping actions in the first viewport, the live catalogue and selected 3 kg product remain visually readable, the selected-pack and cart-order states reach the order form, and the About page remains within the mobile viewport without horizontal overflow. The order page reads browser query parameters directly so its `product` and `cart` modes remain reliable even though Wouter supplies a pathname-only location value.
 
+The first fresh production captures after the GitHub synchronization at **390 × 844** and **1280 × 720** confirmed the new cart entry and shopping actions were deployed. Those captures were taken immediately on page load, before the asynchronous catalogue request returned, so the product-stage image had not yet rendered. A waited production capture is required before recording final package-image acceptance.
+
+Waited production captures with a six-second rendering allowance completed the acceptance check. At **390 × 844**, the first viewport shows the mobile cart access, menu control, both shopping actions, and the official 3 kg package without scrolling. At **1280 × 720**, the feature package, premium dark-green hero, navigation, WhatsApp action, and cart control are all present. The live Netlify deployment is therefore confirmed compatible with release `0fb8784` from GitHub `main`.
+
 ## Public content page review
 
 The live-data souvenir, gallery, FAQ, and contact routes were reviewed in the redesigned editorial presentation. Desktop checks confirmed each route keeps its existing data state and route action while using the shared premium rail, headline, card, and footer language. At 375 × 812, the contact enquiry form, managed WhatsApp action, newsletter capture, FAQ empty state, route navigation, and footer all remain legible, tap-accessible, and free from horizontal overflow.
