@@ -45,3 +45,9 @@
 - [x] Replace the verified broken mobile production header-logo asset reference with the established deployment-safe hosted logo URL, then repeat live route checks.
 - [x] Synchronize the verified shared header-logo correction to `popsi-234/aboyejo-global-foods` on `main` and recheck the live mobile product-detail route.
 - [x] Verify the live Netlify `/products` catalogue route after the latest deployment at desktop and mobile sizes, and record the results in the release verification notes.
+- [x] Surface the live Garri Ijebu 1 kg, 2 kg, and 3 kg collection visibly on the homepage with product-detail and selected-pack order entry points, using existing verified product data only.
+- [x] Make the homepage primary collection call to action lead visitors directly to the live catalogue instead of leaving the new product-detail journey undiscovered.
+- [ ] Add focused regression coverage and desktop/mobile checks for the new homepage collection entry point, then synchronize the verified update to the connected Netlify source branch.
+- [x] Correct the observed low-contrast hero collection action so the new direct catalogue entry point is visibly readable and keyboard-accessible.
+- [x] Bind the homepage shelf only to the verified live `garri-ijebu-1kg`, `garri-ijebu-2kg`, and `garri-ijebu-3kg` records, rather than the first three active products.
+- [x] Replace static homepage pack-card fallback content with clear live-collection loading and unavailable states so the public shelf never presents non-live placeholder information.

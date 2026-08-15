@@ -17,7 +17,7 @@ import {
   X,
 } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
-import { loadPublicSetting } from "@/lib/commerce";
+import { loadProducts, loadPublicSetting } from "@/lib/commerce";
 
 const storage = {
   hero: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/XkKcjxdJwmQluifX.jpg",
@@ -32,11 +32,16 @@ const storage = {
   suppliedDetail: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/AvfJTbRvBNEidNDd.jpg",
 };
 
-const productSizes = [
-  { size: "1kg", title: "The pantry pack", detail: "A considered starting point for everyday rituals." },
-  { size: "2kg", title: "The family table", detail: "A generous format for the people gathered around you." },
-  { size: "3kg", title: "The occasion pack", detail: "Made for hosting, gifting, and moments that call for more." },
-];
+type HomeCollectionProduct = {
+  id: string;
+  slug: string;
+  imageUrl: string | null;
+  size: string;
+  title: string;
+  detail: string | null;
+};
+
+const approvedCollectionSlugs = ["garri-ijebu-1kg", "garri-ijebu-2kg", "garri-ijebu-3kg"] as const;
 
 const faqs = [
   { question: "What is Garri Ijebu?", answer: "Garri Ijebu is a finely processed cassava food with a distinctive crisp texture and bright, familiar character. Aboyejo presents it in premium zip-lock packaging." },
@@ -86,9 +91,29 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState(0);
   const [whatsAppNumber, setWhatsAppNumber] = useState("");
+  const [featuredProducts, setFeaturedProducts] = useState<HomeCollectionProduct[]>([]);
+  const [collectionLoading, setCollectionLoading] = useState(true);
 
   useEffect(() => {
     loadPublicSetting("whatsapp_number").then(setWhatsAppNumber).catch(() => undefined);
+    loadProducts()
+      .then((items) => {
+        const approvedProducts = items
+          .filter((product) => product.is_active && approvedCollectionSlugs.includes(product.slug as typeof approvedCollectionSlugs[number]))
+          .sort((first, second) => approvedCollectionSlugs.indexOf(first.slug as typeof approvedCollectionSlugs[number]) - approvedCollectionSlugs.indexOf(second.slug as typeof approvedCollectionSlugs[number]));
+
+        setFeaturedProducts(approvedProducts
+          .map((product) => ({
+            id: product.id,
+            slug: product.slug,
+            imageUrl: product.image_url,
+            size: product.size || product.name,
+            title: product.name,
+            detail: product.description,
+          })));
+      })
+      .catch(() => setFeaturedProducts([]))
+      .finally(() => setCollectionLoading(false));
   }, []);
 
   const closeMenu = () => setMenuOpen(false);
@@ -114,7 +139,7 @@ export default function Home() {
         </a>
         <nav className={`desktop-nav ${menuOpen ? "is-open" : ""}`} aria-label="Primary navigation">
           <a href="#story" onClick={() => goTo("story")}>Our story</a>
-          <a href="#products" onClick={() => goTo("products")}>Products</a>
+          <a href="/products">Products</a>
           <a href="#souvenirs" onClick={() => goTo("souvenirs")}>Souvenirs</a>
           <a href="#gallery" onClick={() => goTo("gallery")}>Gallery</a>
         </nav>
@@ -135,7 +160,7 @@ export default function Home() {
             <p className="hero-lede">Premium Garri Ijebu and custom souvenir packaging from a Nigerian family-owned business, founded in 2020.</p>
             <div className="hero-actions">
               <Button className="forest-button" onClick={openWhatsApp}><MessageCircle size={16} /> Order on WhatsApp</Button>
-              <button className="text-arrow" onClick={() => goTo("products")}>Explore the collection <MoveRight size={17} /></button>
+              <a className="text-arrow" href="/products">Explore the collection <MoveRight size={17} /></a>
             </div>
             <div className="hero-proof">
               <div><span className="proof-number">2020</span><span>Founded with family at the centre</span></div>
@@ -182,14 +207,24 @@ export default function Home() {
         <section className="products-section paper-section" id="products">
           <div className="section-heading-row">
             <Reveal><ChapterLabel number="03">The collection</ChapterLabel><h2>The grain,<br /><i>your way.</i></h2></Reveal>
-            <Reveal className="heading-note" delay={0.1}><p>Three pack sizes. One signature staple. Choose the format that suits your shelf, your people, or your next gathering.</p><button className="text-arrow dark-arrow" onClick={() => goTo("contact")}>Ask about availability <MoveRight size={17} /></button></Reveal>
+            <Reveal className="heading-note" delay={0.1}><p>Three pack sizes. One signature staple. Choose the format that suits your shelf, your people, or your next gathering.</p><a className="text-arrow dark-arrow" href="/products">Browse the live collection <MoveRight size={17} /></a></Reveal>
           </div>
           <div className="size-shelf">
-            {productSizes.map((product, index) => (
+            {collectionLoading && <div className="collection-status" role="status">Loading the current Garri Ijebu packs…</div>}
+            {!collectionLoading && featuredProducts.length === 0 && <div className="collection-status"><h3>View the current collection</h3><p>The available packs are shown in the live catalogue.</p><a href="/products">Browse the live collection <MoveRight size={15} /></a></div>}
+            {featuredProducts.map((product, index) => (
               <Reveal key={product.size} className={`size-card card-${index + 1}`} delay={index * 0.08}>
                 <div className="size-card-top"><span>Garri Ijebu</span><span>0{index + 1}</span></div>
-                <div className="size-badge"><strong>{product.size}</strong><span>PACK</span></div>
-                <div className="size-card-bottom"><h3>{product.title}</h3><p>{product.detail}</p><button onClick={() => goTo("contact")} aria-label={`Enquire about the ${product.size} pack`}>Enquire <ArrowUpRight size={15} /></button></div>
+                <a className="product-pack-preview" href={`/products/${product.slug}`} aria-label={`View the ${product.size} Garri Ijebu pack`}>
+                  {product.imageUrl ? <img src={product.imageUrl} alt={`${product.title} ${product.size} package`} /> : <div className="size-badge"><strong>{product.size}</strong><span>PACK</span></div>}
+                </a>
+                <div className="size-card-bottom">
+                  <h3>{product.title}</h3>{product.detail && <p>{product.detail}</p>}
+                  <div className="home-pack-actions">
+                    <a href={`/products/${product.slug}`}>View pack <ArrowUpRight size={15} /></a>
+                    <a href={`/order?product=${product.id}`}>Order this pack <ArrowUpRight size={15} /></a>
+                  </div>
+                </div>
               </Reveal>
             ))}
           </div>

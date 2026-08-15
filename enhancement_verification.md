@@ -19,3 +19,9 @@ The storefront enhancement pass addressed a confirmed public-route gap: catalogu
 | Metadata | Catalogue and detail routes set accurate document titles and descriptions while mounted, restoring the prior document metadata on navigation. |
 | Regression checks | `pnpm check`, `pnpm test` (7 files, 9 tests), and `pnpm build` completed successfully. |
 | Responsive review | Full-page desktop (1280 × 900) and mobile (375 × 812) screenshots confirmed readable pack facts, visible calls to action, and a single-column mobile layout without horizontal overflow. |
+
+## Homepage collection visibility update
+
+The homepage now makes the active collection visible rather than requiring visitors to discover it only through the standalone catalogue route. The hero **Explore the collection** action and primary Products navigation link go directly to `/products`. The existing Collection section loads only the approved active records with slugs `garri-ijebu-1kg`, `garri-ijebu-2kg`, and `garri-ijebu-3kg`; each card uses its canonical `image_url` and provides both a product-detail entry and a selected-pack ordering link.
+
+If the live collection cannot be loaded, the homepage displays an explicit loading or catalogue-link state instead of static or invented product-card fallback content. Desktop and 375 × 812 mobile renders confirmed the three supplied packages, direct actions, readable hero collection link, and responsive card layout. The final local validation completed with `pnpm check`, `pnpm test` (8 files, 10 tests), and `pnpm build` passing.
