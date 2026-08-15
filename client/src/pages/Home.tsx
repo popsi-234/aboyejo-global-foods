@@ -19,6 +19,7 @@ import { CartButton } from "@/components/CartDrawer";
 import { useCart } from "@/contexts/CartContext";
 import { formatProductPrice, loadProducts, loadPublicSetting } from "@/lib/commerce";
 import "./home-mobile-hero.css";
+import "./home-brief-refresh.css";
 
 const visualAssets = {
   heroScene: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/XkKcjxdJwmQluifX.jpg",
@@ -111,9 +112,9 @@ export default function Home() {
         </a>
         <nav className={menuOpen ? "premium-nav-links is-open" : "premium-nav-links"} aria-label="Primary navigation">
           <a href="#top" onClick={closeMenu}>Home</a>
-          <a href="#collection" onClick={closeMenu}>Products</a>
+          <a href="/products" onClick={closeMenu}>Products</a>
           <a href="/souvenirs" onClick={closeMenu}>Souvenirs</a>
-          <a href="/about" onClick={closeMenu}>Our story</a>
+          <a href="/about" onClick={closeMenu}>About</a>
           <a href="/gallery" onClick={closeMenu}>Gallery</a>
           <a href="/faq" onClick={closeMenu}>FAQ</a>
           <a href="/contact" onClick={closeMenu}>Contact</a>
@@ -130,13 +131,12 @@ export default function Home() {
         <section className="premium-hero">
           <div className="premium-hero-scene" style={{ backgroundImage: `url(${visualAssets.heroScene})` }} />
           <div className="premium-hero-shade" />
-          <div className="premium-hero-content">
-            <div className="premium-eyebrow"><span /> AUTHENTIC NIGERIAN TASTE</div>
-            <h1><em>Premium</em><br />Garri Ijebu</h1>
-            <p className="premium-tagline">Made for every moment.</p>
-            <p className="premium-hero-copy">Carefully presented Garri Ijebu in official 1 kg, 2 kg, and 3 kg packs for the pantry, the family table, and meaningful occasions.</p>
+          <div className="premium-hero-content brief-hero-content">
+            <div className="premium-eyebrow"><span /> PREMIUM GARRI IJEBU</div>
+            <h1>Pure Taste.<br /><em>Made the Nigerian Way.</em></h1>
+            <p className="premium-hero-copy">Aboyejo Global Foods brings premium Garri Ijebu to homes, events, and gifting—hygienically packaged with care for every table.</p>
             <div className="premium-hero-actions">
-              <a className="premium-primary-button" href="#collection"><ShoppingBag size={16} /> Shop Garri Ijebu</a>
+              <a className="premium-primary-button" href="#collection"><ShoppingBag size={16} /> Shop Garri</a>
               <button className="premium-secondary-button" onClick={openWhatsApp}><MessageCircle size={16} /> Order on WhatsApp</button>
             </div>
             <div className="premium-trust-row" aria-label="Product features">
@@ -146,22 +146,23 @@ export default function Home() {
               <span><Users size={17} /> Family-owned</span>
             </div>
           </div>
-          <div className="premium-product-stage" aria-label="Featured Garri Ijebu package">
+          <div className="premium-product-stage brief-product-stage" aria-label="Featured Garri Ijebu package">
             <div className="premium-stage-halo" />
-            <div className="premium-stage-kicker">OUR SIGNATURE PACK</div>
+            <div className="premium-stage-kicker">SIGNATURE PANTRY PACK</div>
             {heroProduct?.imageUrl ? (
               <img className="premium-stage-product" src={heroProduct.imageUrl} alt={`${heroProduct.name} official package`} />
             ) : (
               <img className="premium-stage-product premium-stage-fallback" src={visualAssets.heroScene} alt="Garri Ijebu" />
             )}
             <div className="premium-stage-size">{heroProduct ? sizeLabel(heroProduct) : "3 kg"}</div>
+            <p className="brief-stage-caption">Officially branded<br />3 kg package</p>
           </div>
         </section>
 
         <section className="premium-collection" id="collection">
           <div className="premium-section-heading">
-            <div><p className="premium-overline">CHOOSE YOUR PERFECT PACK</p><h2>Quality in <i>every size.</i></h2></div>
-            <p>One familiar staple, packed in the format that suits your kitchen, your family, or the occasion you are preparing for.</p>
+            <div><p className="premium-overline">CHOOSE YOUR PACK</p><h2>The right pack for<br /><i>every table.</i></h2></div>
+            <p>Choose the official pack that fits your pantry, family table, event, or gifting plan. Availability and prices are supplied from the live catalogue.</p>
           </div>
           <div className="premium-pack-grid">
             {collectionLoading && <div className="premium-collection-status" role="status">Loading the current Garri Ijebu packs…</div>}
@@ -177,7 +178,7 @@ export default function Home() {
                   <p>{product.description || "Premium Garri Ijebu in official branded packaging."}</p>
                   <div className="commerce-price-stack"><strong className="premium-price-note">{formatProductPrice(product)}</strong>{product.sale_price && product.price > product.sale_price ? <del>₦{Number(product.price).toLocaleString()}</del> : null}</div>
                   <span className="commerce-stock">{product.stock_status.replaceAll("_", " ")}</span>
-                  <div className="commerce-card-actions"><a href={`/products/${product.slug}`}>View pack</a><button type="button" onClick={() => addPackToCart(product)}>Add to cart</button></div>
+                  <div className="commerce-card-actions"><button type="button" onClick={() => addPackToCart(product)}>Add to cart</button><a className="premium-card-order" href={`/order?product=${product.id}`}>Order pack</a></div>
                 </div>
               </article>
             ))}

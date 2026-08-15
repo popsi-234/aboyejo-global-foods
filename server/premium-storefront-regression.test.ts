@@ -8,12 +8,16 @@ describe("premium storefront hero", () => {
   it("keeps the official 3 kg package and both shopping actions in the mobile hero contract", () => {
     const home = readProjectFile("client/src/pages/Home.tsx");
     const mobileHero = readProjectFile("client/src/pages/home-mobile-hero.css");
+    const heroRefresh = readProjectFile("client/src/pages/home-brief-refresh.css");
 
     expect(home).toContain('import "./home-mobile-hero.css"');
+    expect(home).toContain('import "./home-brief-refresh.css"');
     expect(home).toContain('product.slug === "garri-ijebu-3kg"');
-    expect(home).toContain('className="premium-product-stage"');
+    expect(home).toContain('className="premium-product-stage brief-product-stage"');
     expect(home).toContain('alt={`${heroProduct.name} official package`}');
-    expect(home).toContain("Shop Garri Ijebu");
+    expect(home).toContain("Pure Taste.");
+    expect(home).toContain("Made the Nigerian Way.");
+    expect(home).toContain("Shop Garri");
     expect(home).toContain("Order on WhatsApp");
 
     expect(mobileHero).toContain("@media (max-width: 620px)");
@@ -21,5 +25,7 @@ describe("premium storefront hero", () => {
     expect(mobileHero).toContain("position: relative");
     expect(mobileHero).toContain("min-height: 255px");
     expect(mobileHero).toContain(".premium-stage-product");
+    expect(heroRefresh).toContain(".brief-product-stage");
+    expect(heroRefresh).toContain("min-height: 215px");
   });
 });
