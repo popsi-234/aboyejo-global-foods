@@ -9,14 +9,14 @@ describe("homepage collection discovery", () => {
     const home = readProjectFile("client/src/pages/Home.tsx");
 
     expect(home).toContain("loadProducts()");
-    expect(home).toContain('"garri-ijebu-1kg", "garri-ijebu-2kg", "garri-ijebu-3kg"');
-    expect(home).toContain("approvedCollectionSlugs.includes(product.slug");
-    expect(home).toContain("product.image_url");
+    expect(home).toContain('"garri-ijebu-3kg", "garri-ijebu-2kg", "garri-ijebu-1kg"');
+    expect(home).toContain("collectionOrder.includes(product.slug");
+    expect(home).toContain("imageUrl: product.image_url");
     expect(home).toContain('href="/products"');
     expect(home).toContain("/products/${product.slug}");
     expect(home).toContain("/order?product=${product.id}");
-    expect(home).toContain("product-pack-preview");
+    expect(home).toContain("premium-pack-card");
     expect(home).toContain("Loading the current Garri Ijebu packs");
-    expect(home).toContain("View the current collection");
+    expect(home).toContain("View the full collection");
   });
 });

@@ -51,3 +51,10 @@
 - [x] Correct the observed low-contrast hero collection action so the new direct catalogue entry point is visibly readable and keyboard-accessible.
 - [x] Bind the homepage shelf only to the verified live `garri-ijebu-1kg`, `garri-ijebu-2kg`, and `garri-ijebu-3kg` records, rather than the first three active products.
 - [x] Replace static homepage pack-card fallback content with clear live-collection loading and unavailable states so the public shelf never presents non-live placeholder information.
+- [x] Redesign the public storefront visual system with deep natural green, warm ivory, muted gold, stronger editorial typography, and refined responsive navigation while preserving all routes and backend integrations.
+- [x] Rebuild the homepage hero around the official 3 kg Garri Ijebu package photograph, factual product-led copy, WhatsApp ordering, and a premium trust strip without altering official packaging or business details.
+- [x] Redesign the live product section to make the official 3 kg, 2 kg, and 1 kg package photographs the primary visual assets, preserving database prices, stock state, canonical image URLs, and the current ordering system.
+- [x] Refine the existing story, value, souvenir, gallery, FAQ, contact, and footer presentation using only existing live business content and images, including a discreet existing-admin-route footer link.
+- [ ] Add regression coverage, run full type/test/build checks, and conduct desktop/mobile visual review for the premium storefront redesign before synchronizing it to the current Netlify source branch.
+- [x] Refine and verify the `/souvenirs`, `/gallery`, `/faq`, and `/contact` page presentations to match the premium storefront system while retaining their existing Supabase-backed content and actions.
+- [x] Capture desktop/mobile evidence for the refreshed homepage and at least one refreshed non-home public route after the remaining public-page redesign is complete.

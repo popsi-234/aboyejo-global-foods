@@ -1,277 +1,199 @@
-// Quiet Harvest Editorial: warm paper surfaces, asymmetrical storytelling, restrained gold, and purposeful motion.
-import { Button } from "@/components/ui/button";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowDown,
   ArrowUpRight,
   Check,
-  ChevronDown,
-  CircleCheck,
-  HeartHandshake,
+  ChevronRight,
   Leaf,
   Menu,
   MessageCircle,
-  MoveRight,
   Package,
+  ShieldCheck,
+  ShoppingBag,
   Sparkles,
+  Users,
   X,
 } from "lucide-react";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useLocation } from "wouter";
 import { loadProducts, loadPublicSetting } from "@/lib/commerce";
 
-const storage = {
-  hero: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/XkKcjxdJwmQluifX.jpg",
+const visualAssets = {
+  heroScene: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/XkKcjxdJwmQluifX.jpg",
   grain: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/lCSFsofiQyeWvPkq.jpg",
-  souvenirScene: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/UDnpQSJGKKtNpDil.jpg",
-  texture: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/jOdMWSDUKPKYDWAF.jpg",
   mark: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/XHgAIZOHpmbJXiuW.png",
-  suppliedSouvenir: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/DzZxKRZqLqWgUvaS.jpg",
-  suppliedWedding: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/VwRFcONlnduPfUOp.jpg",
-  suppliedCelebration: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/ttBBYvyulDiVahqd.jpg",
-  suppliedCorporate: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/hxtQVLUDKdTAsPHE.jpg",
-  suppliedDetail: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/AvfJTbRvBNEidNDd.jpg",
+  occasion: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/UDnpQSJGKKtNpDil.jpg",
+  wedding: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/VwRFcONlnduPfUOp.jpg",
 };
 
-type HomeCollectionProduct = {
+type HomeProduct = {
   id: string;
   slug: string;
   imageUrl: string | null;
-  size: string;
-  title: string;
-  detail: string | null;
+  name: string;
+  size: string | null;
+  description: string | null;
 };
 
-const approvedCollectionSlugs = ["garri-ijebu-1kg", "garri-ijebu-2kg", "garri-ijebu-3kg"] as const;
+const collectionOrder = ["garri-ijebu-3kg", "garri-ijebu-2kg", "garri-ijebu-1kg"] as const;
 
-const faqs = [
-  { question: "What is Garri Ijebu?", answer: "Garri Ijebu is a finely processed cassava food with a distinctive crisp texture and bright, familiar character. Aboyejo presents it in premium zip-lock packaging." },
-  { question: "What sizes are available?", answer: "The current collection is presented in 1kg, 2kg, and 3kg packs. Availability and pricing can be confirmed through the ordering channel." },
-  { question: "Can I request custom souvenir packaging?", answer: "Yes. Custom souvenir packaging is available for weddings, birthdays, naming ceremonies, church events, corporate events, schools, memorials, and other special occasions." },
-  { question: "How do I place an order?", answer: "Use the order enquiry button to begin a WhatsApp conversation. The final WhatsApp number is intentionally left editable so the business can connect its own live line." },
-];
-
-const gallery = [
-  { src: storage.suppliedWedding, label: "Wedding moments", className: "gallery-tall" },
-  { src: storage.suppliedDetail, label: "A closer look", className: "gallery-wide" },
-  { src: storage.grain, label: "The grain", className: "gallery-square" },
-  { src: storage.suppliedCelebration, label: "Celebration bundles", className: "gallery-tall" },
-  { src: storage.suppliedCorporate, label: "Corporate gifting", className: "gallery-square" },
-];
-
-function scrollToSection(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-function Reveal({ children, className = "", delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
-  const reduceMotion = useReducedMotion();
-  return (
-    <motion.div
-      className={className}
-      initial={reduceMotion ? false : { opacity: 0, y: 24 }}
-      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.18 }}
-      transition={{ duration: 0.65, delay, ease: [0.23, 1, 0.32, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-function ChapterLabel({ number, children }: { number: string; children: ReactNode }) {
-  return (
-    <div className="chapter-label">
-      <span>{number}</span>
-      <i />
-      <strong>{children}</strong>
-    </div>
-  );
+function sizeLabel(product: HomeProduct) {
+  return product.size || product.name.replace("Garri Ijebu", "").trim() || "Pack";
 }
 
 export default function Home() {
+  const [, goTo] = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [openFaq, setOpenFaq] = useState(0);
   const [whatsAppNumber, setWhatsAppNumber] = useState("");
-  const [featuredProducts, setFeaturedProducts] = useState<HomeCollectionProduct[]>([]);
+  const [products, setProducts] = useState<HomeProduct[]>([]);
   const [collectionLoading, setCollectionLoading] = useState(true);
 
   useEffect(() => {
     loadPublicSetting("whatsapp_number").then(setWhatsAppNumber).catch(() => undefined);
     loadProducts()
       .then((items) => {
-        const approvedProducts = items
-          .filter((product) => product.is_active && approvedCollectionSlugs.includes(product.slug as typeof approvedCollectionSlugs[number]))
-          .sort((first, second) => approvedCollectionSlugs.indexOf(first.slug as typeof approvedCollectionSlugs[number]) - approvedCollectionSlugs.indexOf(second.slug as typeof approvedCollectionSlugs[number]));
-
-        setFeaturedProducts(approvedProducts
+        const collection = items
+          .filter((product) => product.is_active && collectionOrder.includes(product.slug as typeof collectionOrder[number]))
+          .sort((a, b) => collectionOrder.indexOf(a.slug as typeof collectionOrder[number]) - collectionOrder.indexOf(b.slug as typeof collectionOrder[number]))
           .map((product) => ({
             id: product.id,
             slug: product.slug,
             imageUrl: product.image_url,
-            size: product.size || product.name,
-            title: product.name,
-            detail: product.description,
-          })));
+            name: product.name,
+            size: product.size,
+            description: product.description,
+          }));
+        setProducts(collection);
       })
-      .catch(() => setFeaturedProducts([]))
+      .catch(() => setProducts([]))
       .finally(() => setCollectionLoading(false));
   }, []);
 
-  const closeMenu = () => setMenuOpen(false);
-  const goTo = (id: string) => {
-    closeMenu();
-    window.setTimeout(() => scrollToSection(id), 40);
-  };
+  const heroProduct = useMemo(() => products.find((product) => product.slug === "garri-ijebu-3kg") || products[0], [products]);
   const openWhatsApp = () => {
     const digits = whatsAppNumber.replace(/\D/g, "");
-    if (!digits) {
+    if (digits) {
+      window.open(`https://wa.me/${digits}`, "_blank", "noopener,noreferrer");
+    } else {
       goTo("contact");
-      return;
     }
-    window.open(`https://wa.me/${digits}`, "_blank", "noopener,noreferrer");
   };
+  const closeMenu = () => setMenuOpen(false);
 
   return (
-    <div className="site-shell">
-      <header className="site-nav">
-        <a className="brand-lockup" href="#top" onClick={() => goTo("top")} aria-label="Aboyejo Global Foods home">
-          <img src={storage.mark} alt="Aboyejo grain mark" className="brand-mark" />
-          <span className="brand-wordmark">Aboyejo <em>Global Foods</em></span>
+    <div className="site-shell premium-home">
+      <header className="premium-nav">
+        <a className="premium-brand" href="#top" aria-label="Aboyejo Global Foods home">
+          <img src={visualAssets.mark} alt="Aboyejo Global Foods" />
+          <span><b>ABOYEJO</b><small>GLOBAL FOODS</small></span>
         </a>
-        <nav className={`desktop-nav ${menuOpen ? "is-open" : ""}`} aria-label="Primary navigation">
-          <a href="#story" onClick={() => goTo("story")}>Our story</a>
-          <a href="/products">Products</a>
-          <a href="#souvenirs" onClick={() => goTo("souvenirs")}>Souvenirs</a>
-          <a href="#gallery" onClick={() => goTo("gallery")}>Gallery</a>
+        <nav className={menuOpen ? "premium-nav-links is-open" : "premium-nav-links"} aria-label="Primary navigation">
+          <a href="#top" onClick={closeMenu}>Home</a>
+          <a href="#collection" onClick={closeMenu}>Products</a>
+          <a href="/souvenirs" onClick={closeMenu}>Souvenirs</a>
+          <a href="#story" onClick={closeMenu}>Our story</a>
+          <a href="/gallery" onClick={closeMenu}>Gallery</a>
+          <a href="/faq" onClick={closeMenu}>FAQ</a>
+          <a href="/contact" onClick={closeMenu}>Contact</a>
         </nav>
-        <div className="nav-actions">
-          <button className="nav-link-button" onClick={() => goTo("faq")}>FAQ</button>
-          <Button className="nav-cta" onClick={() => goTo("contact")}><MessageCircle size={15} /> Order enquiry</Button>
-          <button className="menu-trigger" onClick={() => setMenuOpen((value) => !value)} aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen}>
-            {menuOpen ? <X size={20} /> : <Menu size={20} />}
+        <div className="premium-nav-actions">
+          <button className="premium-whatsapp small" onClick={openWhatsApp}><MessageCircle size={15} /> Order on WhatsApp</button>
+          <button className="premium-menu" onClick={() => setMenuOpen((open) => !open)} aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen}>
+            {menuOpen ? <X size={21} /> : <Menu size={21} />}
           </button>
         </div>
       </header>
 
       <main id="top">
-        <section className="hero-section">
-          <div className="hero-copy">
-            <ChapterLabel number="01">A family pantry, made premium</ChapterLabel>
-            <h1>Good food keeps<br /><i>good company.</i></h1>
-            <p className="hero-lede">Premium Garri Ijebu and custom souvenir packaging from a Nigerian family-owned business, founded in 2020.</p>
-            <div className="hero-actions">
-              <Button className="forest-button" onClick={openWhatsApp}><MessageCircle size={16} /> Order on WhatsApp</Button>
-              <a className="text-arrow" href="/products">Explore the collection <MoveRight size={17} /></a>
+        <section className="premium-hero">
+          <div className="premium-hero-scene" style={{ backgroundImage: `url(${visualAssets.heroScene})` }} />
+          <div className="premium-hero-shade" />
+          <div className="premium-hero-content">
+            <div className="premium-eyebrow"><span /> AUTHENTIC NIGERIAN TASTE</div>
+            <h1><em>Premium</em><br />Garri Ijebu</h1>
+            <p className="premium-tagline">Made for every moment.</p>
+            <p className="premium-hero-copy">Carefully presented Garri Ijebu in official 1 kg, 2 kg, and 3 kg packs for the pantry, the family table, and meaningful occasions.</p>
+            <div className="premium-hero-actions">
+              <a className="premium-primary-button" href="#collection"><ShoppingBag size={16} /> Shop Garri Ijebu</a>
+              <button className="premium-secondary-button" onClick={openWhatsApp}><MessageCircle size={16} /> Order on WhatsApp</button>
             </div>
-            <div className="hero-proof">
-              <div><span className="proof-number">2020</span><span>Founded with family at the centre</span></div>
-              <div><span className="proof-number">01</span><span>Signature product: Garri Ijebu</span></div>
+            <div className="premium-trust-row" aria-label="Product features">
+              <span><Leaf size={17} /> 100% Natural</span>
+              <span><ShieldCheck size={17} /> Hygienically Packaged</span>
+              <span><Sparkles size={17} /> Premium Quality</span>
+              <span><Users size={17} /> Family-owned</span>
             </div>
           </div>
-          <div className="hero-visual">
-            <div className="hero-orbit orbit-one" />
-            <div className="hero-orbit orbit-two" />
-            <motion.div className="hero-image-frame" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.9, ease: [0.23, 1, 0.32, 1] }}>
-              <img src={storage.hero} alt="A bowl of golden Garri Ijebu beside a wooden scoop" />
-              <div className="image-caption"><span>THE GRAIN</span><b>Simple ingredients.<br />Careful presentation.</b></div>
-            </motion.div>
-            <div className="floating-note"><Leaf size={16} /><span>Rooted in<br />West African taste</span></div>
+          <div className="premium-product-stage" aria-label="Featured Garri Ijebu package">
+            <div className="premium-stage-halo" />
+            <div className="premium-stage-kicker">OUR SIGNATURE PACK</div>
+            {heroProduct?.imageUrl ? (
+              <img className="premium-stage-product" src={heroProduct.imageUrl} alt={`${heroProduct.name} official package`} />
+            ) : (
+              <img className="premium-stage-product premium-stage-fallback" src={visualAssets.heroScene} alt="Garri Ijebu" />
+            )}
+            <div className="premium-stage-size">{heroProduct ? sizeLabel(heroProduct) : "3 kg"}</div>
           </div>
-          <button className="scroll-cue" onClick={() => goTo("intro")} aria-label="Scroll to brand introduction"><span>Scroll to discover</span><ArrowDown size={17} /></button>
         </section>
 
-        <section className="intro-section paper-section" id="intro">
-          <Reveal className="intro-aside"><span>THE ABOYEJO APPROACH</span><i /></Reveal>
-          <Reveal className="intro-copy" delay={0.08}>
-            <p className="eyebrow">A familiar taste, given room to shine</p>
-            <h2>From the pantry<br />to the <i>occasion.</i></h2>
-            <p>Aboyejo Global Foods brings a beloved Nigerian staple into a more considered setting: carefully presented, ready for the family table, and thoughtful enough to become part of the celebration.</p>
-            <button className="text-arrow dark-arrow" onClick={() => goTo("story")}>Read our story <ArrowUpRight size={17} /></button>
-          </Reveal>
-          <Reveal className="intro-stats" delay={0.16}>
-            <div className="stat-line"><span>01</span><strong>Premium Garri Ijebu</strong><p>Available in 1kg, 2kg, and 3kg formats.</p></div>
-            <div className="stat-line"><span>02</span><strong>Custom souvenirs</strong><p>Packaging designed for the moment you are marking.</p></div>
-            <div className="stat-line"><span>03</span><strong>Family-owned</strong><p>A modern food brand with a personal point of view.</p></div>
-          </Reveal>
-        </section>
-
-        <section className="story-section forest-section" id="story">
-          <div className="story-image-wrap"><img src={storage.grain} alt="Golden Garri grains spilling from a wooden scoop" /><span className="vertical-caption">A SMALL GRAIN, A FULL TABLE</span></div>
-          <Reveal className="story-copy" delay={0.12}>
-            <ChapterLabel number="02">Our story</ChapterLabel>
-            <h2>There is more to<br />a staple than <i>size.</i></h2>
-            <p>Founded in 2020, Aboyejo is a family-owned Nigerian food business built around a simple belief: familiar food deserves thoughtful care. That care shows up in the grain, in the pack, and in how it arrives at the table.</p>
-            <div className="story-signature"><span className="signature-mark">A</span><span>Made for the pantry.<br /><i>Remembered at the table.</i></span></div>
-          </Reveal>
-        </section>
-
-        <section className="products-section paper-section" id="products">
-          <div className="section-heading-row">
-            <Reveal><ChapterLabel number="03">The collection</ChapterLabel><h2>The grain,<br /><i>your way.</i></h2></Reveal>
-            <Reveal className="heading-note" delay={0.1}><p>Three pack sizes. One signature staple. Choose the format that suits your shelf, your people, or your next gathering.</p><a className="text-arrow dark-arrow" href="/products">Browse the live collection <MoveRight size={17} /></a></Reveal>
+        <section className="premium-collection" id="collection">
+          <div className="premium-section-heading">
+            <div><p className="premium-overline">CHOOSE YOUR PERFECT PACK</p><h2>Quality in <i>every size.</i></h2></div>
+            <p>One familiar staple, packed in the format that suits your kitchen, your family, or the occasion you are preparing for.</p>
           </div>
-          <div className="size-shelf">
-            {collectionLoading && <div className="collection-status" role="status">Loading the current Garri Ijebu packs…</div>}
-            {!collectionLoading && featuredProducts.length === 0 && <div className="collection-status"><h3>View the current collection</h3><p>The available packs are shown in the live catalogue.</p><a href="/products">Browse the live collection <MoveRight size={15} /></a></div>}
-            {featuredProducts.map((product, index) => (
-              <Reveal key={product.size} className={`size-card card-${index + 1}`} delay={index * 0.08}>
-                <div className="size-card-top"><span>Garri Ijebu</span><span>0{index + 1}</span></div>
-                <a className="product-pack-preview" href={`/products/${product.slug}`} aria-label={`View the ${product.size} Garri Ijebu pack`}>
-                  {product.imageUrl ? <img src={product.imageUrl} alt={`${product.title} ${product.size} package`} /> : <div className="size-badge"><strong>{product.size}</strong><span>PACK</span></div>}
+          <div className="premium-pack-grid">
+            {collectionLoading && <div className="premium-collection-status" role="status">Loading the current Garri Ijebu packs…</div>}
+            {!collectionLoading && products.length === 0 && <div className="premium-collection-status"><p>The current packs are available in the live catalogue.</p><a href="/products">View products <ChevronRight size={16} /></a></div>}
+            {products.map((product) => (
+              <article className="premium-pack-card" key={product.id}>
+                <span className="premium-size-chip">{sizeLabel(product)}</span>
+                <a href={`/products/${product.slug}`} className="premium-pack-image" aria-label={`View ${product.name}`}>
+                  {product.imageUrl && <img src={product.imageUrl} alt={`${product.name} package`} />}
                 </a>
-                <div className="size-card-bottom">
-                  <h3>{product.title}</h3>{product.detail && <p>{product.detail}</p>}
-                  <div className="home-pack-actions">
-                    <a href={`/products/${product.slug}`}>View pack <ArrowUpRight size={15} /></a>
-                    <a href={`/order?product=${product.id}`}>Order this pack <ArrowUpRight size={15} /></a>
-                  </div>
+                <div className="premium-pack-body">
+                  <h3>{sizeLabel(product)} Pack</h3>
+                  <p>{product.description || "Premium Garri Ijebu in official branded packaging."}</p>
+                  <span className="premium-price-note">Price on request</span>
+                  <a href={`/order?product=${product.id}`} className="premium-card-order"><MessageCircle size={14} /> Order this pack</a>
                 </div>
-              </Reveal>
+              </article>
             ))}
           </div>
-          <div className="collection-note"><CircleCheck size={18} /><span>Premium branded zip-lock packaging</span><i /><span>Editable ordering details</span><i /><span>Made for everyday and special occasions</span></div>
+          <a className="premium-catalogue-link" href="/products">View the full collection <ArrowUpRight size={16} /></a>
         </section>
 
-        <section className="why-section" id="why">
-          <div className="why-intro"><ChapterLabel number="04">Why Aboyejo</ChapterLabel><h2>Quietly<br /><i>considered.</i></h2><p>Every touchpoint is designed to feel warm, clear, and ready to be shared.</p></div>
-          <div className="why-grid">
-            <Reveal className="why-card why-card-large"><span className="why-icon"><Leaf size={21} /></span><span className="card-index">01 / THE INGREDIENT</span><h3>Familiar,<br />never ordinary.</h3><p>We keep the focus on premium Garri Ijebu: a food people know, presented with the respect it deserves.</p></Reveal>
-            <Reveal className="why-card" delay={0.08}><span className="why-icon"><Package size={20} /></span><span className="card-index">02 / THE PACK</span><h3>Ready to<br />give.</h3><p>Zip-lock packaging keeps the presentation clean from pantry to table.</p></Reveal>
-            <Reveal className="why-card why-card-dark" delay={0.16}><span className="why-icon"><HeartHandshake size={20} /></span><span className="card-index">03 / THE FEELING</span><h3>Rooted in<br />care.</h3><p>Family-owned means the details stay personal, even when the occasion is big.</p></Reveal>
+        <section className="premium-story" id="story">
+          <div className="premium-story-image"><img src={visualAssets.grain} alt="Garri grains in a wooden scoop" /><span>ABOYEJO / EST. 2020</span></div>
+          <div className="premium-story-copy">
+            <p className="premium-overline">OUR STORY</p>
+            <h2>A family tradition<br />built on <i>care.</i></h2>
+            <p>Aboyejo Global Foods is a family-owned Nigerian food business built around a simple belief: familiar food deserves thoughtful care in the grain, the pack, and the way it reaches the table.</p>
+            <a className="premium-outline-button" href="/products">Learn about our packs <ArrowUpRight size={16} /></a>
           </div>
         </section>
 
-        <section className="souvenir-section paper-section" id="souvenirs">
-          <div className="souvenir-grid">
-            <Reveal className="souvenir-copy"><ChapterLabel number="05">The souvenir experience</ChapterLabel><h2>Pack the occasion<br />with something <i>people know.</i></h2><p>For weddings, birthdays, naming ceremonies, church events, corporate events, schools, memorials, and the special occasions that sit somewhere in between.</p><button className="forest-button" onClick={() => goTo("contact")}>Request a quote <ArrowUpRight size={16} /></button></Reveal>
-            <Reveal className="souvenir-hero-card" delay={0.12}><img src={storage.souvenirScene} alt="Unbranded cream and beige food pouches styled for a celebration" /><div className="souvenir-card-note"><Sparkles size={16} /><span>Custom presentation<br />for meaningful moments</span></div></Reveal>
-            <Reveal className="souvenir-reference" delay={0.18}><img src={storage.suppliedSouvenir} alt="Supplied reference image of souvenir food packaging at an event table" /><div><span>Visual archive</span><p>A few of the supplied celebration references, carried into the story with a lighter touch.</p></div></Reveal>
-          </div>
-          <div className="occasion-strip"><span>Weddings</span><span>Birthdays</span><span>Naming ceremonies</span><span>Church events</span><span>Corporate events</span><span>Schools</span><span>Memorials</span></div>
+        <section className="premium-value-band" aria-label="Why choose Aboyejo">
+          <div><Leaf size={22} /><strong>Premium Garri Ijebu</strong><span>Presented for your pantry and table.</span></div>
+          <div><Package size={22} /><strong>Carefully packaged</strong><span>Official branded zip-lock packs.</span></div>
+          <div><Sparkles size={22} /><strong>Custom souvenir packs</strong><span>For special occasions and gifting.</span></div>
+          <div><Users size={22} /><strong>Family-owned since 2020</strong><span>A personal approach to a familiar food.</span></div>
         </section>
 
-        <section className="gallery-section paper-section" id="gallery">
-          <div className="gallery-heading"><ChapterLabel number="06">A visual note</ChapterLabel><h2>The details<br /><i>stay with you.</i></h2><p>From a single scoop to a full table, the feeling is in the details. A small selection of supplied references and new material moments.</p></div>
-          <div className="gallery-grid">
-            {gallery.map((item, index) => <Reveal key={item.label} className={`gallery-item ${item.className}`} delay={index * 0.04}><img src={item.src} alt={item.label} loading="lazy" /><span>{item.label}</span></Reveal>)}
-          </div>
+        <section className="premium-occasion" id="souvenirs">
+          <div className="premium-occasion-copy"><p className="premium-overline">SOUVENIR PACKS</p><h2>Make the occasion<br />feel <i>considered.</i></h2><p>For weddings, birthdays, naming ceremonies, church events, corporate events, schools, memorials, and the moments in between.</p><a className="premium-primary-button" href="/souvenirs">Explore souvenirs <ArrowUpRight size={16} /></a></div>
+          <div className="premium-occasion-visual"><img className="premium-occasion-main" src={visualAssets.occasion} alt="Souvenir food packaging for a special occasion" /><img className="premium-occasion-inset" src={visualAssets.wedding} alt="Celebration table setting" /><span>MADE FOR MOMENTS<br />THAT MATTER</span></div>
         </section>
 
-        <section className="faq-section" id="faq">
-          <div className="faq-intro"><ChapterLabel number="07">Questions, answered</ChapterLabel><h2>A clear next<br /><i>step.</i></h2><p>Everything here stays simple. If your question is more specific, the order enquiry is the quickest way to ask.</p><button className="text-arrow" onClick={() => goTo("contact")}>Start an enquiry <MoveRight size={17} /></button></div>
-          <div className="faq-list">
-            {faqs.map((faq, index) => <div className={`faq-item ${openFaq === index ? "is-open" : ""}`} key={faq.question}><button className="faq-question" onClick={() => setOpenFaq(openFaq === index ? -1 : index)} aria-expanded={openFaq === index}><span>0{index + 1}</span><strong>{faq.question}</strong><ChevronDown size={18} /></button><AnimatePresence initial={false}>{openFaq === index && <motion.div className="faq-answer" initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25, ease: [0.23, 1, 0.32, 1] }}><p>{faq.answer}</p></motion.div>}</AnimatePresence></div>)}
-          </div>
-        </section>
-
-        <section className="contact-section forest-section" id="contact">
-          <div className="contact-text"><ChapterLabel number="08">Order enquiry</ChapterLabel><h2>Ready when<br /><i>you are.</i></h2><p>Tell us what you are planning, and we will help you find the right format for the moment. The live enquiry, newsletter, and WhatsApp settings now sit in the dedicated contact flow.</p><button className="gold-button" onClick={() => window.location.assign("/contact")}><MessageCircle size={17} /> Start an enquiry</button></div>
-          <div className="contact-panel"><div className="contact-panel-top"><span>ABOYEJO / ENQUIRY</span><span>01</span></div><div className="contact-fields"><div><label>Your name</label><span>Type your name</span></div><div><label>What are you planning?</label><span>Wedding, gifting, pantry...</span></div><div><label>What would you like to ask?</label><span>Share a little about your order</span></div></div><div className="contact-panel-foot"><span>WhatsApp ordering</span><span className="editable-pill"><Check size={13} /> Number editable</span></div></div>
+        <section className="premium-contact-band">
+          <div><p className="premium-overline">READY TO ORDER?</p><h2>Bring a familiar taste<br />to your <i>next table.</i></h2></div>
+          <div className="premium-contact-actions"><button className="premium-gold-button" onClick={openWhatsApp}><MessageCircle size={17} /> Order on WhatsApp</button><a href="/contact">Contact Aboyejo <ArrowUpRight size={16} /></a></div>
         </section>
       </main>
 
-      <footer className="site-footer">
-        <div className="footer-top"><a className="brand-lockup footer-brand" href="#top" onClick={() => goTo("top")}><img src={storage.mark} alt="Aboyejo grain mark" className="brand-mark" /><span className="brand-wordmark">Aboyejo <em>Global Foods</em></span></a><p>Premium Garri Ijebu.<br />Thoughtful packaging.<br />Family-owned since 2020.</p><button className="footer-back" onClick={() => goTo("top")}><ArrowDown size={16} /> Back to top</button></div>
-        <div className="footer-bottom"><span>© 2026 Aboyejo Global Foods</span><span>Made with care for the table</span><span>Privacy · Terms</span></div>
+      <footer className="premium-footer">
+        <div className="premium-footer-brand"><img src={visualAssets.mark} alt="Aboyejo Global Foods" /><p><b>ABOYEJO</b><span>GLOBAL FOODS</span></p><small>Premium Garri Ijebu, carefully presented for the pantry and the table.</small></div>
+        <div className="premium-footer-links"><div><strong>Quick links</strong><a href="#top">Home</a><a href="#collection">Products</a><a href="/souvenirs">Souvenirs</a><a href="/gallery">Gallery</a></div><div><strong>Customer care</strong><a href="/contact">Contact us</a><a href="/order">Place an order</a><a href="/faq">FAQ</a><a href="/admin">Admin</a></div></div>
+        <div className="premium-footer-cta"><strong>Stay connected</strong><p>For updates and product enquiries.</p><button className="premium-whatsapp small" onClick={openWhatsApp}><MessageCircle size={15} /> WhatsApp</button></div>
+        <div className="premium-footer-bottom"><span>© 2026 Aboyejo Global Foods. All rights reserved.</span><a href="#top">Back to top <ArrowDown size={14} /></a></div>
       </footer>
     </div>
   );
