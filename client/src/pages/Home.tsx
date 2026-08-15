@@ -16,6 +16,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "wouter";
 import { loadProducts, loadPublicSetting } from "@/lib/commerce";
+import "./home-mobile-hero.css";
 
 const visualAssets = {
   heroScene: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/XkKcjxdJwmQluifX.jpg",

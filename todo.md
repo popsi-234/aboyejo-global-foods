@@ -55,6 +55,9 @@
 - [x] Rebuild the homepage hero around the official 3 kg Garri Ijebu package photograph, factual product-led copy, WhatsApp ordering, and a premium trust strip without altering official packaging or business details.
 - [x] Redesign the live product section to make the official 3 kg, 2 kg, and 1 kg package photographs the primary visual assets, preserving database prices, stock state, canonical image URLs, and the current ordering system.
 - [x] Refine the existing story, value, souvenir, gallery, FAQ, contact, and footer presentation using only existing live business content and images, including a discreet existing-admin-route footer link.
-- [ ] Add regression coverage, run full type/test/build checks, and conduct desktop/mobile visual review for the premium storefront redesign before synchronizing it to the current Netlify source branch.
+- [x] Add regression coverage, run full type/test/build checks, and conduct desktop/mobile visual review for the premium storefront redesign before synchronizing it to the current Netlify source branch.
 - [x] Refine and verify the `/souvenirs`, `/gallery`, `/faq`, and `/contact` page presentations to match the premium storefront system while retaining their existing Supabase-backed content and actions.
 - [x] Capture desktop/mobile evidence for the refreshed homepage and at least one refreshed non-home public route after the remaining public-page redesign is complete.
+- [x] Correct the mobile premium hero so the official featured Garri Ijebu package image is visible within the first viewport alongside the shopping actions.
+- [x] Record explicit 375 × 812 visual acceptance evidence that the first homepage viewport shows both the official featured package and the shopping actions without scrolling.
+- [x] Identify or add premium storefront regression assertions, record their coverage, and rerun the release checks before synchronization.

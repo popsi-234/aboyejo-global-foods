@@ -1,0 +1,73 @@
+@media (max-width: 620px) {
+  .premium-hero {
+    display: block;
+    min-height: 0;
+  }
+
+  .premium-hero-content {
+    padding: 112px 24px 24px;
+  }
+
+  .premium-hero h1 {
+    margin-top: 15px;
+    font-size: clamp(54px, 15vw, 69px);
+  }
+
+  .premium-tagline {
+    margin-bottom: 12px;
+    font-size: 24px;
+  }
+
+  .premium-hero-copy {
+    max-width: 330px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .premium-hero-actions {
+    margin-top: 20px;
+  }
+
+  .premium-trust-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px 13px;
+    margin-top: 21px;
+    padding-top: 13px;
+  }
+
+  .premium-product-stage {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    min-height: 255px;
+    margin: 0 5%;
+    opacity: 1;
+  }
+
+  .premium-stage-halo {
+    top: 3%;
+    left: 50%;
+    width: 51%;
+    transform: translateX(-50%);
+  }
+
+  .premium-stage-product {
+    right: 50%;
+    bottom: -3px;
+    width: 47%;
+    max-height: 248px;
+    transform: translateX(50%);
+  }
+
+  .premium-stage-kicker {
+    top: 22%;
+    left: 7%;
+  }
+
+  .premium-stage-size {
+    right: 9%;
+    bottom: 19%;
+  }
+}
