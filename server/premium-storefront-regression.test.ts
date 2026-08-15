@@ -13,7 +13,7 @@ describe("premium storefront hero", () => {
     expect(home).toContain('import "./home-mobile-hero.css"');
     expect(home).toContain('import "./home-brief-refresh.css"');
     expect(home).toContain('product.slug === "garri-ijebu-3kg"');
-    expect(home).toContain('className="premium-product-stage brief-product-stage"');
+    expect(home).toContain('className="premium-product-stage brief-product-stage reference-product-stage"');
     expect(home).toContain('alt={`${heroProduct.name} official package`}');
     expect(home).toContain("Pure Taste.");
     expect(home).toContain("Made the Nigerian Way.");
@@ -25,7 +25,25 @@ describe("premium storefront hero", () => {
     expect(mobileHero).toContain("position: relative");
     expect(mobileHero).toContain("min-height: 255px");
     expect(mobileHero).toContain(".premium-stage-product");
-    expect(heroRefresh).toContain(".brief-product-stage");
-    expect(heroRefresh).toContain("min-height: 215px");
+    expect(heroRefresh).toContain(".reference-product-stage");
+    expect(heroRefresh).toContain("min-height: 190px");
+  });
+
+  it("keeps the reference-matched lower section sequence backed by live content helpers", () => {
+    const home = readProjectFile("client/src/pages/Home.tsx");
+    const heroRefresh = readProjectFile("client/src/pages/home-brief-refresh.css");
+
+    expect(home).toContain("loadGallery");
+    expect(home).toContain("loadSouvenirs");
+    expect(home).toContain('className="reference-souvenirs"');
+    expect(home).toContain('className="reference-gallery-band"');
+    expect(home).toContain('className="reference-support"');
+    expect(home).toContain('className="premium-footer reference-footer"');
+    expect(home).toContain('href="/admin"');
+
+    expect(heroRefresh).toContain(".reference-souvenirs");
+    expect(heroRefresh).toContain(".reference-gallery-band");
+    expect(heroRefresh).toContain(".reference-support");
+    expect(heroRefresh).toContain(".reference-footer");
   });
 });

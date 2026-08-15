@@ -18,6 +18,8 @@ describe("premium commerce contract", () => {
   });
 
   it("keeps exact quantities, live prices, and the existing order service in the public purchase journey", () => {
+    const home = readProjectFile("client/src/pages/Home.tsx");
+    const homeStyles = readProjectFile("client/src/pages/home-brief-refresh.css");
     const productDetail = readProjectFile("client/src/pages/ProductDetail.tsx");
     const products = readProjectFile("client/src/pages/Products.tsx");
     const order = readProjectFile("client/src/pages/Order.tsx");
@@ -28,6 +30,12 @@ describe("premium commerce contract", () => {
     expect(productDetail).toContain("createWhatsAppOrderUrl");
     expect(products).toContain("formatProductPrice(product)");
     expect(products).toContain("addItem(product); openCart();");
+    expect(home).toContain("formatProductPrice(product)");
+    expect(home).toContain('className="commerce-stock"');
+    expect(home).toContain("addPackToCart(product)");
+    expect(home).toContain("Order on WhatsApp");
+    expect(homeStyles).toContain(".reference-pack-card .commerce-stock {");
+    expect(homeStyles).toContain("display: inline-flex");
     expect(order).toContain("const cartMode = query.get(\"cart\") === \"1\"");
     expect(order).toContain("cartItems.map((item) => ({ product_id: item.id, quantity: item.quantity }))");
     expect(order).toContain("createOrder({");

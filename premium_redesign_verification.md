@@ -32,3 +32,7 @@ Waited production captures with a six-second rendering allowance completed the a
 ## Public content page review
 
 The live-data souvenir, gallery, FAQ, and contact routes were reviewed in the redesigned editorial presentation. Desktop checks confirmed each route keeps its existing data state and route action while using the shared premium rail, headline, card, and footer language. At 375 × 812, the contact enquiry form, managed WhatsApp action, newsletter capture, FAQ empty state, route navigation, and footer all remain legible, tap-accessible, and free from horizontal overflow.
+
+## Supplied-reference homepage rebuild
+
+The homepage was rebuilt against the owner-supplied reference: a compact dark-green navigation bar, full-width product-led hero, cream trust row, three compact live pack cards, dark story band, souvenir strip, dark gallery strip, practical support row, and branded dark footer. Desktop and **390 × 844** local review confirmed the reference-matched progression remains responsive. Only live Garri Ijebu product data and available site media are used; live prices, stock labels, cart controls, WhatsApp/order actions, and the protected `/admin` entry remain available.
