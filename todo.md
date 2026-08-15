@@ -61,3 +61,10 @@
 - [x] Correct the mobile premium hero so the official featured Garri Ijebu package image is visible within the first viewport alongside the shopping actions.
 - [x] Record explicit 375 × 812 visual acceptance evidence that the first homepage viewport shows both the official featured package and the shopping actions without scrolling.
 - [x] Identify or add premium storefront regression assertions, record their coverage, and rerun the release checks before synchronization.
+- [x] Audit the existing public routes, commerce helpers, product types, and administration route against the attached premium storefront brief without changing the Supabase backend.
+- [x] Refine the public navigation and homepage editorial hero around the live 3 kg Garri Ijebu product image, existing WhatsApp ordering, and a discreet protected-admin entry.
+- [x] Add a client-side cart and quantity-aware ordering handoff that preserves live product information, canonical image_url usage, and the existing order workflow.
+- [x] Upgrade the live product catalogue and detail journey with data-backed prices, stock states, quantity controls, and responsive premium product presentation without fabricated commerce data.
+- [x] Align public story, souvenir, FAQ, contact, metadata, and mobile navigation details with the approved premium food-brand design direction while retaining existing data and actions.
+- [x] Add targeted regression tests, run type/test/build checks, and verify the updated public storefront at desktop and 360 px, 390 px, and 414 px mobile widths.
+- [ ] Synchronize the verified storefront enhancement release to GitHub main and confirm the compatible live Netlify deployment.

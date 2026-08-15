@@ -9,8 +9,23 @@ export type Faq = Tables<"faqs">;
 
 export const brandMark = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663524335109/XHgAIZOHpmbJXiuW.png";
 
+export type WhatsAppOrderItem = Pick<Product, "name" | "size"> & { quantity: number };
+
+export function formatProductPrice(product: Pick<Product, "price" | "sale_price">) {
+  const price = product.sale_price ?? product.price;
+  return Number(price) > 0 ? `₦${Number(price).toLocaleString()}` : "Price on request";
+}
+
+export function createWhatsAppOrderUrl(whatsAppNumber: string, items: WhatsAppOrderItem[]) {
+  const digits = whatsAppNumber.replace(/\D/g, "");
+  if (!digits || !items.length) return "";
+  const selection = items.map((item) => `• ${item.name} (${item.size}) × ${item.quantity}`).join("\n");
+  const message = `Hello Aboyejo Global Foods, I would like to order:\n${selection}\n\nPlease share current availability and the next steps.`;
+  return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
+}
+
 export const loadProducts = async () => {
-  const { data, error } = await supabase.from("products").select("*").order("sort_order", { ascending: true });
+  const { data, error } = await supabase.from("products").select("*").eq("is_active", true).order("sort_order", { ascending: true });
   if (error) throw error;
   return data;
 };

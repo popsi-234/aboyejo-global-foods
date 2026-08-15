@@ -6,25 +6,34 @@ import { Link } from "wouter";
 import { loadFaqs, loadGallery, loadPublicSetting, loadSouvenirs, submitContact, subscribeToNewsletter, type Faq, type GalleryItem, type SouvenirPackage } from "@/lib/commerce";
 import { PageHero, PublicShell } from "@/components/PublicShell";
 
+export function AboutPage() {
+  usePageMetadata("About | Aboyejo Global Foods", "Learn how Aboyejo Global Foods presents premium Garri Ijebu with care, hygiene, and thoughtful packaging.");
+  return <PublicShell><PageHero eyebrow="Our story" title={<>A familiar food,<br /><i>thoughtfully presented.</i></>}>Aboyejo Global Foods is a family-owned Nigerian food business built around careful presentation, official packaging, and the familiar taste of Garri Ijebu.</PageHero><section className="premium-content-section premium-about-section"><div className="premium-content-intro split"><p className="premium-eyebrow">01 / The Aboyejo approach</p><p>Our focus remains simple: a pantry staple presented with attention to the pack, the occasion, and the people receiving it.</p></div><div className="premium-about-grid"><article><span>01</span><h2>Quality in every pack.</h2><p>Official Aboyejo Garri Ijebu packs are prepared for the home, the family table, and meaningful occasions.</p></article><article><span>02</span><h2>Care in presentation.</h2><p>Hygienic branded packaging makes it easier to choose a familiar staple with confidence.</p></article><article><span>03</span><h2>Made for real occasions.</h2><p>From pantry orders to gifting and souvenir plans, the team keeps the next step clear and personal.</p></article></div><Link className="premium-inline-link" href="/products">Explore the current packs <b>↗</b></Link></section></PublicShell>;
+}
+
 export function GalleryPage() {
+  usePageMetadata("Gallery | Aboyejo Global Foods", "Packaging, gatherings, and grain details shared by Aboyejo Global Foods.");
   const [items, setItems] = useState<GalleryItem[]>([]);
   useEffect(() => { loadGallery().then(setItems).catch(() => undefined); }, []);
   return <PublicShell><PageHero eyebrow="Visual archive" title={<>The details<br /><i>stay with you.</i></>}>A collection of packaging, gatherings, and grain details shared by Aboyejo Global Foods.</PageHero><section className="premium-content-section"><div className="premium-content-intro"><p className="premium-eyebrow">01 / The archive</p><p>Selected moments from the Aboyejo story, shared as they are published.</p></div>{items.length ? <div className="premium-gallery-grid">{items.map((item, index) => <figure className={`premium-gallery-card card-${(index % 4) + 1}`} key={item.id}><img src={item.image_url} alt={item.title} /><figcaption><span>0{index + 1}</span><div><strong>{item.title}</strong>{item.caption ? <p>{item.caption}</p> : null}</div></figcaption></figure>)}</div> : <EmptyNotice title="The gallery is being curated." text="New product and occasion imagery will appear here as it is published by the team." />}</section></PublicShell>;
 }
 
 export function SouvenirsPage() {
+  usePageMetadata("Souvenirs | Aboyejo Global Foods", "Explore Aboyejo Global Foods souvenir and event packaging options.");
   const [items, setItems] = useState<SouvenirPackage[]>([]);
   useEffect(() => { loadSouvenirs().then(setItems).catch(() => undefined); }, []);
   return <PublicShell><PageHero eyebrow="The souvenir experience" title={<>Pack the occasion<br />with something <i>people know.</i></>}>Custom Aboyejo presentation for weddings, birthdays, naming ceremonies, churches, schools, corporate moments, and more.</PageHero><section className="premium-content-section"><div className="premium-content-intro split"><p className="premium-eyebrow">02 / Meaningful occasions</p><p>Choose a presentation starting point, then begin a direct conversation with the team.</p></div>{items.length ? <div className="premium-souvenir-grid">{items.map((item, index) => <article className="premium-souvenir-card" key={item.id}><div className="premium-souvenir-visual">{item.image_url ? <img src={item.image_url} alt={item.name} /> : <div className="premium-image-placeholder"><Package size={28} /></div>}<span>0{index + 1}</span></div><div className="premium-souvenir-copy"><p className="premium-eyebrow">{item.event_types.join(" · ")}</p><h2>{item.name}</h2><p>{item.description}</p><div className="premium-card-details">{item.minimum_quantity ? <span>Minimum quantity: {item.minimum_quantity}</span> : null}{item.price_note ? <span>{item.price_note}</span> : null}</div><Link className="premium-inline-link" href="/contact">Request a quote <b>↗</b></Link></div></article>)}</div> : <EmptyNotice title="Souvenir packages are being prepared." text="Start an enquiry to discuss custom packaging for your event." />}</section></PublicShell>;
 }
 
 export function FaqPage() {
+  usePageMetadata("FAQ | Aboyejo Global Foods", "Answers to common Aboyejo Global Foods product and ordering questions.");
   const [items, setItems] = useState<Faq[]>([]);
   useEffect(() => { loadFaqs().then(setItems).catch(() => undefined); }, []);
   return <PublicShell><PageHero eyebrow="Questions, answered" title={<>A clear next<br /><i>step.</i></>}>Everything here stays simple. If your question is more specific, the enquiry page is the quickest way to ask.</PageHero><section className="premium-content-section"><div className="premium-content-intro split"><p className="premium-eyebrow">03 / A simple answer</p><p>Start here, then contact the team if you would like to discuss a specific order or occasion.</p></div>{items.length ? <div className="premium-faq-list">{items.map((item, index) => <details key={item.id} open={index === 0}><summary><span>0{index + 1}</span><strong>{item.question}</strong><b>+</b></summary><p>{item.answer}</p></details>)}</div> : <EmptyNotice title="FAQs are being prepared." text="For a quick answer now, send a direct enquiry to the Aboyejo team." />}</section></PublicShell>;
 }
 
 export function ContactPage() {
+  usePageMetadata("Contact | Aboyejo Global Foods", "Contact Aboyejo Global Foods about Garri Ijebu packs, gifting, and souvenir orders.");
   const [notice, setNotice] = useState("");
   const [whatsApp, setWhatsApp] = useState("");
   useEffect(() => { loadPublicSetting("whatsapp_number").then(setWhatsApp).catch(() => undefined); }, []);
@@ -36,3 +45,17 @@ export function ContactPage() {
 }
 
 function EmptyNotice({ title, text }: { title: string; text: string }) { return <div className="premium-empty-state"><p className="premium-eyebrow">Aboyejo Global Foods</p><h2>{title}</h2><p>{text}</p><Link className="premium-inline-link" href="/contact">Start an enquiry <b>↗</b></Link></div>; }
+
+function usePageMetadata(title: string, description: string) {
+  useEffect(() => {
+    const descriptionTag = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+    const previousTitle = document.title;
+    const previousDescription = descriptionTag?.content;
+    document.title = title;
+    if (descriptionTag) descriptionTag.content = description;
+    return () => {
+      document.title = previousTitle;
+      if (descriptionTag && previousDescription) descriptionTag.content = previousDescription;
+    };
+  }, [description, title]);
+}

@@ -1,14 +1,16 @@
 // Live product catalogue backed by the canonical products.image_url field.
-import { ArrowUpRight, PackageOpen } from "lucide-react";
+import { ArrowUpRight, PackageOpen, ShoppingBag } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "wouter";
-import { loadProducts, type Product } from "@/lib/commerce";
+import { useCart } from "@/contexts/CartContext";
+import { formatProductPrice, loadProducts, type Product } from "@/lib/commerce";
 import { PageHero, PublicShell } from "@/components/PublicShell";
 
 export default function Products() {
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const { addItem, openCart } = useCart();
 
   useEffect(() => {
     let active = true;
@@ -35,7 +37,7 @@ export default function Products() {
       {products.length === 0 && !error && !loading ? <div className="empty-state"><PackageOpen size={34} /><h2>The collection is being prepared.</h2><p>Product availability will appear here as soon as the Aboyejo team publishes it.</p><Link className="forest-button" href="/contact">Ask about availability <ArrowUpRight size={16} /></Link></div> : null}
       {!loading && products.length > 0 ? <div className="catalogue-grid">{products.map((product) => <article className="catalogue-card" key={product.id}>
         <div className="catalogue-image">{product.image_url ? <img src={product.image_url} alt={`${product.name} ${product.size} package`} loading="lazy" decoding="async" /> : <span>{product.size}</span>}</div>
-        <div className="catalogue-card-copy"><p className="eyebrow">{product.stock_status.replaceAll("_", " ")}</p><h2>{product.name}</h2><p>{product.description}</p><div className="catalogue-meta"><span>{product.size}</span><strong>{product.sale_price ?? product.price ? `₦${Number(product.sale_price ?? product.price).toLocaleString()}` : "Price on request"}</strong></div><div className="catalogue-actions"><Link href={`/products/${product.slug}`}>View details <ArrowUpRight size={15} /></Link><Link href={`/order?product=${product.id}`}>Order now</Link></div></div>
+        <div className="catalogue-card-copy"><p className="eyebrow">{product.stock_status.replaceAll("_", " ")}</p><h2>{product.name}</h2><p>{product.description}</p><div className="catalogue-meta"><span>{product.size}</span><div className="commerce-price-stack"><strong>{formatProductPrice(product)}</strong>{product.sale_price && product.price > product.sale_price ? <del>₦{Number(product.price).toLocaleString()}</del> : null}</div></div><span className="commerce-stock">{product.stock_status.replaceAll("_", " ")}</span><div className="catalogue-actions"><Link href={`/products/${product.slug}`}>View details <ArrowUpRight size={15} /></Link><button type="button" onClick={() => { addItem(product); openCart(); }}><ShoppingBag size={14} /> Add to cart</button></div></div>
       </article>)}</div> : null}
     </section>
   </PublicShell>;

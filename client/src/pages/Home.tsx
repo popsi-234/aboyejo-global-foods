@@ -15,7 +15,9 @@ import {
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "wouter";
-import { loadProducts, loadPublicSetting } from "@/lib/commerce";
+import { CartButton } from "@/components/CartDrawer";
+import { useCart } from "@/contexts/CartContext";
+import { formatProductPrice, loadProducts, loadPublicSetting } from "@/lib/commerce";
 import "./home-mobile-hero.css";
 
 const visualAssets = {
@@ -33,6 +35,9 @@ type HomeProduct = {
   name: string;
   size: string | null;
   description: string | null;
+  price: number;
+  sale_price: number | null;
+  stock_status: string;
 };
 
 const collectionOrder = ["garri-ijebu-3kg", "garri-ijebu-2kg", "garri-ijebu-1kg"] as const;
@@ -47,6 +52,7 @@ export default function Home() {
   const [whatsAppNumber, setWhatsAppNumber] = useState("");
   const [products, setProducts] = useState<HomeProduct[]>([]);
   const [collectionLoading, setCollectionLoading] = useState(true);
+  const { addItem, openCart } = useCart();
 
   useEffect(() => {
     loadPublicSetting("whatsapp_number").then(setWhatsAppNumber).catch(() => undefined);
@@ -62,6 +68,9 @@ export default function Home() {
             name: product.name,
             size: product.size,
             description: product.description,
+            price: product.price,
+            sale_price: product.sale_price,
+            stock_status: product.stock_status,
           }));
         setProducts(collection);
       })
@@ -79,6 +88,19 @@ export default function Home() {
     }
   };
   const closeMenu = () => setMenuOpen(false);
+  const addPackToCart = (product: HomeProduct) => {
+    addItem({ id: product.id, slug: product.slug, name: product.name, size: product.size || "Pack", image_url: product.imageUrl, price: product.price, sale_price: product.sale_price, stock_status: product.stock_status });
+    openCart();
+  };
+
+  useEffect(() => {
+    const description = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+    const previousTitle = document.title;
+    const previousDescription = description?.content;
+    document.title = "Aboyejo Global Foods | Premium Garri Ijebu";
+    if (description) description.content = "Shop official Aboyejo Global Foods Garri Ijebu packs for the pantry, table, and meaningful occasions.";
+    return () => { document.title = previousTitle; if (description && previousDescription) description.content = previousDescription; };
+  }, []);
 
   return (
     <div className="site-shell premium-home">
@@ -91,13 +113,13 @@ export default function Home() {
           <a href="#top" onClick={closeMenu}>Home</a>
           <a href="#collection" onClick={closeMenu}>Products</a>
           <a href="/souvenirs" onClick={closeMenu}>Souvenirs</a>
-          <a href="#story" onClick={closeMenu}>Our story</a>
+          <a href="/about" onClick={closeMenu}>Our story</a>
           <a href="/gallery" onClick={closeMenu}>Gallery</a>
           <a href="/faq" onClick={closeMenu}>FAQ</a>
           <a href="/contact" onClick={closeMenu}>Contact</a>
         </nav>
         <div className="premium-nav-actions">
-          <button className="premium-whatsapp small" onClick={openWhatsApp}><MessageCircle size={15} /> Order on WhatsApp</button>
+          <button className="premium-whatsapp small" onClick={openWhatsApp}><MessageCircle size={15} /> Order on WhatsApp</button><CartButton label="Cart" />
           <button className="premium-menu" onClick={() => setMenuOpen((open) => !open)} aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen}>
             {menuOpen ? <X size={21} /> : <Menu size={21} />}
           </button>
@@ -153,8 +175,9 @@ export default function Home() {
                 <div className="premium-pack-body">
                   <h3>{sizeLabel(product)} Pack</h3>
                   <p>{product.description || "Premium Garri Ijebu in official branded packaging."}</p>
-                  <span className="premium-price-note">Price on request</span>
-                  <a href={`/order?product=${product.id}`} className="premium-card-order"><MessageCircle size={14} /> Order this pack</a>
+                  <div className="commerce-price-stack"><strong className="premium-price-note">{formatProductPrice(product)}</strong>{product.sale_price && product.price > product.sale_price ? <del>₦{Number(product.price).toLocaleString()}</del> : null}</div>
+                  <span className="commerce-stock">{product.stock_status.replaceAll("_", " ")}</span>
+                  <div className="commerce-card-actions"><a href={`/products/${product.slug}`}>View pack</a><button type="button" onClick={() => addPackToCart(product)}>Add to cart</button></div>
                 </div>
               </article>
             ))}
@@ -192,7 +215,7 @@ export default function Home() {
 
       <footer className="premium-footer">
         <div className="premium-footer-brand"><img src={visualAssets.mark} alt="Aboyejo Global Foods" /><p><b>ABOYEJO</b><span>GLOBAL FOODS</span></p><small>Premium Garri Ijebu, carefully presented for the pantry and the table.</small></div>
-        <div className="premium-footer-links"><div><strong>Quick links</strong><a href="#top">Home</a><a href="#collection">Products</a><a href="/souvenirs">Souvenirs</a><a href="/gallery">Gallery</a></div><div><strong>Customer care</strong><a href="/contact">Contact us</a><a href="/order">Place an order</a><a href="/faq">FAQ</a><a href="/admin">Admin</a></div></div>
+        <div className="premium-footer-links"><div><strong>Quick links</strong><a href="#top">Home</a><a href="#collection">Products</a><a href="/about">Our story</a><a href="/souvenirs">Souvenirs</a></div><div><strong>Customer care</strong><a href="/contact">Contact us</a><a href="/order">Place an order</a><a href="/faq">FAQ</a><a href="/admin/login">Admin</a></div></div>
         <div className="premium-footer-cta"><strong>Stay connected</strong><p>For updates and product enquiries.</p><button className="premium-whatsapp small" onClick={openWhatsApp}><MessageCircle size={15} /> WhatsApp</button></div>
         <div className="premium-footer-bottom"><span>© 2026 Aboyejo Global Foods. All rights reserved.</span><a href="#top">Back to top <ArrowDown size={14} /></a></div>
       </footer>

@@ -2,7 +2,8 @@ import { Toaster } from "@/components/ui/sonner";
 // Route map for the public Aboyejo storefront and Supabase-backed administration workspace.
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Admin from "@/pages/Admin";
-import { ContactPage, FaqPage, GalleryPage, SouvenirsPage } from "@/pages/ContentPages";
+import { CartDrawer } from "@/components/CartDrawer";
+import { AboutPage, ContactPage, FaqPage, GalleryPage, SouvenirsPage } from "@/pages/ContentPages";
 import NotFound from "@/pages/NotFound";
 import Order from "@/pages/Order";
 import ProductDetail from "@/pages/ProductDetail";
@@ -20,10 +21,12 @@ function Router() {
       <Route path={"/products"} component={Products} />
       <Route path={"/products/:slug"} component={ProductDetail} />
       <Route path={"/order"} component={Order} />
+      <Route path={"/about"} component={AboutPage} />
       <Route path={"/souvenirs"} component={SouvenirsPage} />
       <Route path={"/gallery"} component={GalleryPage} />
       <Route path={"/faq"} component={FaqPage} />
       <Route path={"/contact"} component={ContactPage} />
+      <Route path={"/admin/login"} component={Admin} />
       <Route path={"/admin"} component={Admin} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
@@ -47,6 +50,7 @@ function App() {
         <TooltipProvider>
           <Toaster position="bottom-right" />
           <Router />
+          <CartDrawer />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
