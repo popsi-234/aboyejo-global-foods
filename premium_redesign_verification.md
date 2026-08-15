@@ -17,6 +17,8 @@ The shared inner-page shell also now carries the refreshed premium navigation an
 
 At **375 × 812**, the first homepage viewport was explicitly reviewed after the mobile hero reflow. It shows the official featured Garri Ijebu package image in the lower-right hero stage and both **Shop Garri Ijebu** and **Order on WhatsApp** actions above it, with no scrolling required. The visible package is the official 3 kg product image; the headline, trust badges, and shopping actions remain readable alongside it.
 
+The same result was verified on the live Netlify deployment at `https://aboyejoglobalfoods1.netlify.app` using a waited **375 × 812** production capture after commit `c06cb87` was synchronized to `main`. This confirms that the mobile package image loads in the first viewport in production, rather than only in the local preview.
+
 ## Public content page review
 
 The live-data souvenir, gallery, FAQ, and contact routes were reviewed in the redesigned editorial presentation. Desktop checks confirmed each route keeps its existing data state and route action while using the shared premium rail, headline, card, and footer language. At 375 × 812, the contact enquiry form, managed WhatsApp action, newsletter capture, FAQ empty state, route navigation, and footer all remain legible, tap-accessible, and free from horizontal overflow.
